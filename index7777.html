@@ -1,0 +1,4857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Swami Samarth — Sadhana, Habit & Electrical Exam Portal</title>
+
+  <!-- Google Fonts & Font Awesome CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* ==========================================================================
+       CSS VARIABLES & SACRED ENGINEERING THEME
+       ========================================================================== */
+    :root {
+      --bg-porcelain: #FDFBF7;
+      --bg-surface: #FFFFFF;
+      --bg-glass: rgba(255, 255, 255, 0.85);
+      --bg-glass-strong: rgba(255, 255, 255, 0.95);
+      
+      --saffron-primary: #FF7700;
+      --saffron-deep: #E65100;
+      --saffron-light: #FFF3E0;
+      --gold-divine: #D4AF37;
+      --gold-light: #FFF8E7;
+      --amber-solar: #FFA000;
+      --electric-orange: #FF5722;
+      --electric-cyan: #0288D1;
+      --electric-glow: rgba(255, 119, 0, 0.25);
+      
+      --text-main: #1F1F24;
+      --text-muted: #666672;
+      --text-light: #9494A0;
+      --border-subtle: rgba(212, 175, 55, 0.2);
+      --border-card: rgba(0, 0, 0, 0.06);
+      
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 8px 24px rgba(212, 175, 55, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+      --shadow-lg: 0 16px 36px rgba(230, 81, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.04);
+      --shadow-divine: 0 0 30px rgba(255, 153, 51, 0.35);
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+
+      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-body: 'Poppins', 'Mukta', sans-serif;
+      --font-devanagari: 'Mukta', 'Poppins', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-porcelain);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 243, 224, 0.6) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(255, 248, 231, 0.7) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--saffron-primary); }
+
+    /* Touch Friendly Buttons */
+    button, input, select, textarea {
+      font-family: inherit;
+      border: none;
+      outline: none;
+    }
+    button {
+      cursor: pointer;
+      user-select: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition-fast);
+      touch-action: manipulation;
+    }
+    button:active { transform: scale(0.97); }
+
+    /* ==========================================================================
+       AUTHENTICATION SCREEN (UNIFIED)
+       ========================================================================== */
+    #authOverlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #FFF9F2 0%, #F5ECE0 100%);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    #authOverlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--bg-glass-strong);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 40px 30px;
+      box-shadow: var(--shadow-lg), 0 0 40px rgba(255, 153, 51, 0.15);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: authCardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 5px;
+      background: linear-gradient(90deg, var(--gold-divine), var(--saffron-primary), var(--electric-orange));
+    }
+    @keyframes authCardIn {
+      0% { opacity: 0; transform: translateY(30px) scale(0.96); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .divine-orb {
+      width: 86px;
+      height: 86px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+      border: 2px solid var(--gold-divine);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(255, 119, 0, 0.35);
+      position: relative;
+    }
+    .divine-orb span {
+      font-size: 42px;
+      color: var(--saffron-deep);
+      font-family: var(--font-devanagari);
+      font-weight: 800;
+      text-shadow: 0 2px 8px rgba(212, 175, 55, 0.4);
+      animation: divineGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes divineGlow {
+      from { filter: drop-shadow(0 0 2px var(--saffron-primary)); transform: scale(1); }
+      to { filter: drop-shadow(0 0 10px var(--gold-divine)); transform: scale(1.06); }
+    }
+
+    .auth-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+    .auth-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      font-family: var(--font-devanagari);
+      letter-spacing: 0.5px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .form-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      color: var(--saffron-primary);
+      font-size: 15px;
+      pointer-events: none;
+    }
+    .auth-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 42px 0 42px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid rgba(0, 0, 0, 0.08);
+      background: #FFFFFF;
+      font-size: 15px;
+      color: var(--text-main);
+      transition: var(--transition-fast);
+    }
+    .auth-input:focus {
+      border-color: var(--saffron-primary);
+      box-shadow: 0 0 0 3px rgba(255, 119, 0, 0.15);
+    }
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      background: none;
+      color: var(--text-light);
+      font-size: 14px;
+      padding: 6px;
+    }
+    .password-toggle:hover { color: var(--text-main); }
+
+    .btn-divine {
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(135deg, var(--saffron-primary), var(--saffron-deep));
+      color: #FFFFFF;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      box-shadow: 0 6px 18px rgba(230, 81, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    .btn-divine:hover {
+      box-shadow: 0 8px 24px rgba(230, 81, 0, 0.45);
+      transform: translateY(-1px);
+    }
+    .btn-divine.loading {
+      pointer-events: none;
+      opacity: 0.85;
+    }
+    .btn-divine.loading .btn-text { opacity: 0; }
+    .btn-spinner {
+      display: none;
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      border-top-color: #FFFFFF;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .btn-divine.loading .btn-spinner { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .auth-error {
+      min-height: 22px;
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #D32F2F;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .auth-error.visible { opacity: 1; }
+    .shake {
+      animation: shakeErr 0.4s ease;
+    }
+    @keyframes shakeErr {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    /* ==========================================================================
+       MAIN APP SHELL & TOP BAR
+       ========================================================================== */
+    #appShell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 90px;
+    }
+
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--bg-glass-strong);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-card);
+      box-shadow: var(--shadow-sm);
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--saffron-light), #FFE0B2);
+      border: 1.5px solid var(--gold-divine);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--saffron-deep);
+      font-size: 24px;
+      font-family: var(--font-devanagari);
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(255, 119, 0, 0.2);
+    }
+    .brand-text h1 {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .brand-text p {
+      font-size: 11px;
+      color: var(--saffron-deep);
+      font-family: var(--font-devanagari);
+      font-weight: 600;
+      letter-spacing: 0.4px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-pill-badge {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #2A2D34, #1B1D22);
+      color: #FFD54F;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      cursor: pointer;
+      border: 1px solid rgba(255, 213, 79, 0.3);
+    }
+    .admin-pill-badge.active { display: inline-flex; }
+
+    .header-stats-pill {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--gold-light);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .pill-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pill-item.coins { color: var(--amber-solar); }
+    .pill-item.xp { color: var(--electric-cyan); }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1px solid var(--border-card);
+      color: var(--text-muted);
+      font-size: 15px;
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-icon:hover {
+      color: var(--saffron-primary);
+      border-color: var(--saffron-primary);
+    }
+
+    /* Desktop Navigation */
+    .desktop-nav {
+      display: none;
+      align-items: center;
+      gap: 6px;
+    }
+    @media (min-width: 992px) {
+      .desktop-nav { display: flex; }
+      #appShell { padding-bottom: 40px; }
+      .bottom-nav { display: none !important; }
+    }
+    .nav-btn {
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: transparent;
+      gap: 8px;
+    }
+    .nav-btn:hover {
+      color: var(--saffron-deep);
+      background: rgba(255, 119, 0, 0.06);
+    }
+    .nav-btn.active {
+      background: linear-gradient(135deg, var(--saffron-primary), var(--saffron-deep));
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(230, 81, 0, 0.3);
+      font-weight: 600;
+    }
+
+    /* Mobile Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background: var(--bg-glass-strong);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border-card);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 8px;
+      z-index: 999;
+      box-shadow: 0 -4px 18px rgba(0,0,0,0.05);
+    }
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 10.5px;
+      font-weight: 500;
+      flex: 1;
+      height: 100%;
+      border-radius: var(--radius-sm);
+      position: relative;
+    }
+    .bottom-nav-item i { font-size: 18px; transition: var(--transition-fast); }
+    .bottom-nav-item.active {
+      color: var(--saffron-deep);
+      font-weight: 700;
+    }
+    .bottom-nav-item.active i {
+      transform: translateY(-2px);
+      color: var(--saffron-primary);
+    }
+    .bottom-nav-item.active::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      width: 20px;
+      height: 3px;
+      background: var(--saffron-primary);
+      border-radius: var(--radius-full);
+    }
+
+    /* ==========================================================================
+       CONTAINER & VIEW SECTIONS
+       ========================================================================== */
+    .main-container {
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    .view-section {
+      display: none;
+      animation: fadeInSection 0.35s ease-out;
+    }
+    .view-section.active { display: block; }
+    @keyframes fadeInSection {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ==========================================================================
+       EMERGENCY BROADCAST ALERT & NOTICE BANNER
+       ========================================================================== */
+    #emergencyBanner {
+      display: none;
+      background: linear-gradient(90deg, #D32F2F, #B71C1C);
+      color: #FFFFFF;
+      padding: 12px 20px;
+      font-size: 13.5px;
+      font-weight: 600;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 16px rgba(183, 28, 28, 0.35);
+      animation: pulseAlert 2s infinite alternate;
+      z-index: 998;
+    }
+    #emergencyBanner.active { display: flex; }
+    @keyframes pulseAlert {
+      0% { opacity: 0.95; }
+      100% { opacity: 1; filter: drop-shadow(0 0 6px rgba(255, 23, 68, 0.8)); }
+    }
+
+    /* ==========================================================================
+       SECTION 1: HOME DASHBOARD
+       ========================================================================== */
+    .hero-banner {
+      background: linear-gradient(135deg, #FFFFFF 0%, #FFF8EE 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 34px 28px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+    .hero-banner::after {
+      content: '॥ श्री स्वामी समर्थ ॥';
+      position: absolute;
+      right: 20px;
+      bottom: -15px;
+      font-family: var(--font-devanagari);
+      font-size: 64px;
+      font-weight: 800;
+      color: rgba(212, 175, 55, 0.06);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .hero-flex {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    @media (min-width: 768px) {
+      .hero-flex {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .hero-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .hero-om-orb {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #FFF3E0 30%, #FFE0B2 100%);
+      border: 2px solid var(--gold-divine);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 25px rgba(255, 119, 0, 0.25);
+      flex-shrink: 0;
+    }
+    .hero-om-orb span {
+      font-family: var(--font-devanagari);
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--saffron-deep);
+      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+    }
+    .hero-texts h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-sadhak-badge {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--saffron-deep);
+      background: var(--saffron-light);
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      margin-top: 4px;
+      letter-spacing: 0.4px;
+    }
+    .sacred-blessing-box {
+      margin-top: 10px;
+      font-family: var(--font-devanagari);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--saffron-primary);
+      text-shadow: 0 1px 4px rgba(212, 175, 55, 0.25);
+    }
+
+    /* Live Stat Cards Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    @media (min-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+
+    .stat-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 18px 16px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition-smooth);
+    }
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-subtle);
+    }
+    .stat-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .stat-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+    .stat-val {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .stat-progress {
+      height: 4px;
+      background: #F0F0F4;
+      border-radius: var(--radius-full);
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .stat-progress-bar {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 1s ease-in-out;
+    }
+
+    /* Notice Board Section on Home */
+    .section-header-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title i { color: var(--saffron-primary); }
+
+    .notices-list-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+    .notice-card {
+      background: #FFFFFF;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-card);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      position: relative;
+      transition: var(--transition-fast);
+      cursor: pointer;
+    }
+    .notice-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-subtle);
+    }
+    .notice-card.pinned {
+      border-left: 4px solid var(--gold-divine);
+      background: linear-gradient(90deg, #FFFCF7, #FFFFFF);
+    }
+    .notice-card.urgent {
+      border-left: 4px solid #D32F2F;
+      background: linear-gradient(90deg, #FFF5F5, #FFFFFF);
+    }
+    .notice-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.3px;
+    }
+    .badge-pinned { background: var(--gold-light); color: var(--amber-solar); }
+    .badge-urgent { background: #FFEBEE; color: #D32F2F; }
+    .badge-regular { background: #ECEFF1; color: #546E7A; }
+
+    /* Animated Empty State */
+    .empty-state-box {
+      text-align: center;
+      padding: 48px 24px;
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      border: 1.5px dashed rgba(212, 175, 55, 0.3);
+      margin: 16px 0;
+      animation: emptyPulse 3s ease-in-out infinite alternate;
+    }
+    @keyframes emptyPulse {
+      0% { border-color: rgba(212, 175, 55, 0.2); }
+      100% { border-color: rgba(255, 119, 0, 0.4); }
+    }
+    .empty-state-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background: var(--saffron-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--saffron-primary);
+    }
+    .empty-state-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .empty-state-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 380px;
+      margin: 0 auto;
+    }
+
+    /* ==========================================================================
+       SECTION 2: JAP MALA (108 SACRED COUNTER)
+       ========================================================================== */
+    .jap-container {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .jap-display-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 36px 20px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .floating-mantra-box {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 50;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .floating-text {
+      font-family: var(--font-devanagari);
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--saffron-deep);
+      text-shadow: 0 0 12px rgba(255, 153, 51, 0.6);
+      animation: floatUpSacred 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      white-space: nowrap;
+    }
+    @keyframes floatUpSacred {
+      0% { opacity: 0; transform: translateY(18px) scale(0.85); }
+      30% { opacity: 1; transform: translateY(-4px) scale(1.1); }
+      100% { opacity: 0; transform: translateY(-36px) scale(1); filter: blur(2px); }
+    }
+
+    /* Mala Bead Wheel Canvas / SVG representation */
+    .mala-wheel-wrap {
+      position: relative;
+      width: 280px;
+      height: 280px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #malaCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .mala-tap-btn {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #FFF3E0, #FFE0B2);
+      border: 4px solid var(--gold-divine);
+      box-shadow: 0 0 35px rgba(255, 119, 0, 0.3), inset 0 2px 6px rgba(255,255,255,0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      cursor: pointer;
+      transition: transform 0.1s cubic-bezier(0.3, 2, 0.4, 1);
+    }
+    .mala-tap-btn:active {
+      transform: scale(0.92);
+      box-shadow: 0 0 50px rgba(255, 119, 0, 0.5);
+    }
+    .mala-count-number {
+      font-size: 46px;
+      font-weight: 800;
+      color: var(--saffron-deep);
+      line-height: 1;
+    }
+    .mala-count-sub {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--amber-solar);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    .mala-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .jap-info-badge {
+      background: var(--gold-light);
+      border: 1px solid var(--border-subtle);
+      color: var(--saffron-deep);
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Jap History */
+    .jap-history-box {
+      margin-top: 30px;
+      text-align: left;
+    }
+    .history-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+
+    /* ==========================================================================
+       SECTION 3: TASKS & NOTES + FULL SCREEN READER
+       ========================================================================== */
+    .tab-pills-bar {
+      display: flex;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.04);
+      padding: 5px;
+      border-radius: var(--radius-full);
+      width: fit-content;
+      margin-bottom: 20px;
+    }
+    .tab-pill {
+      padding: 8px 20px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+    }
+    .tab-pill.active {
+      background: #FFFFFF;
+      color: var(--saffron-deep);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tasks-grid, .notes-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 768px) {
+      .tasks-grid, .notes-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .notes-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .item-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition-smooth);
+    }
+    .item-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-subtle);
+      transform: translateY(-2px);
+    }
+    .item-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .item-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .item-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .item-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 14px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .reward-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--amber-solar);
+      background: var(--gold-light);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+    }
+    .status-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+    }
+    .status-available { background: #E8F5E9; color: #2E7D32; }
+    .status-pending { background: #FFF8E1; color: #F57F17; }
+    .status-completed { background: #E0F2F1; color: #00796B; }
+    .status-rejected { background: #FFEBEE; color: #C62828; }
+
+    /* Note Card Preview */
+    .note-preview-text {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+    .read-more-btn {
+      color: var(--saffron-deep);
+      font-size: 12.5px;
+      font-weight: 600;
+      background: none;
+      padding: 0;
+      gap: 4px;
+    }
+
+    /* Full-screen Note Reading View */
+    #fullScreenNoteView {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-porcelain);
+      z-index: 10500;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+      animation: noteViewOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #fullScreenNoteView.active { display: flex; }
+    @keyframes noteViewOpen {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .note-fullscreen-header {
+      background: var(--bg-glass-strong);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-card);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .note-fullscreen-body {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    .note-fullscreen-title {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .note-fullscreen-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12.5px;
+      color: var(--text-light);
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-card);
+    }
+    .note-fullscreen-content {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-main);
+      white-space: pre-wrap;
+    }
+
+    /* ==========================================================================
+       SECTION 4: HABIT TRACKER (31-DAY MATRIX)
+       ========================================================================== */
+    .habit-container {
+      background: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-md);
+    }
+    .habit-quote {
+      background: var(--gold-light);
+      border-left: 4px solid var(--gold-divine);
+      padding: 14px 18px;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-size: 13.5px;
+      font-style: italic;
+      color: #5D4037;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .habit-table-responsive {
+      overflow-x: auto;
+      margin-bottom: 24px;
+      padding-bottom: 8px;
+    }
+    .habit-matrix {
+      width: 100%;
+      min-width: 860px;
+      border-collapse: separate;
+      border-spacing: 4px;
+    }
+    .habit-matrix th {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 6px 4px;
+      text-align: center;
+    }
+    .habit-matrix td {
+      text-align: center;
+      vertical-align: middle;
+    }
+    .habit-name-cell {
+      text-align: left !important;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      min-width: 180px;
+      padding: 8px 12px !important;
+      background: #FDFBF7;
+      border-radius: var(--radius-sm);
+    }
+    .day-cell-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: #F5F5F7;
+      border: 1px solid rgba(0,0,0,0.06);
+      transition: var(--transition-fast);
+      margin: 0 auto;
+    }
+    .day-cell-btn.completed {
+      background: var(--saffron-primary);
+      border-color: var(--saffron-deep);
+      box-shadow: 0 0 6px rgba(255, 119, 0, 0.4);
+    }
+    .day-cell-btn.today {
+      border: 2px solid var(--electric-cyan);
+    }
+
+    /* Habit Stats Row */
+    .habit-stats-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+    @media (min-width: 768px) {
+      .habit-stats-row { grid-template-columns: repeat(4, 1fr); }
+    }
+    .habit-stat-box {
+      background: #FAFAFC;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+    }
+    .habit-stat-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--saffron-deep);
+    }
+    .habit-stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       SECTION 5: ELECTRICAL ENGINEERING TOOLBOX & EXAM PORTAL
+       ========================================================================== */
+    .electrical-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    @media (min-width: 640px) {
+      .electrical-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .electrical-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .tool-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: var(--transition-smooth);
+    }
+    .tool-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-subtle);
+      transform: translateY(-2px);
+    }
+    .tool-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #E1F5FE, #B3E5FC);
+      color: #0277BD;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .tool-badge-new {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: linear-gradient(135deg, #FF5722, #E64A19);
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 2px 6px rgba(230, 74, 25, 0.3);
+    }
+    .tool-card-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .tool-card-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* Calculator Modal / Sliding View */
+    #calculatorModal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      z-index: 10200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #calculatorModal.active { display: flex; }
+    .calc-box {
+      width: 100%;
+      max-width: 540px;
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 28px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalScaleIn {
+      from { opacity: 0; transform: scale(0.94); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .calc-formula-display {
+      background: #F8F9FA;
+      border: 1px solid #E9ECEF;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-family: monospace;
+      font-size: 13px;
+      color: #0277BD;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .calc-result-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: #F1F8E9;
+      border: 1px solid #C8E6C9;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .calc-result-box.visible { display: flex; }
+    .calc-result-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #2E7D32;
+    }
+
+    /* Quiz / Exam Runner Overlay */
+    #quizRunnerOverlay {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-porcelain);
+      z-index: 10400;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    #quizRunnerOverlay.active { display: flex; }
+    .quiz-runner-header {
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--border-card);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .quiz-timer-pill {
+      background: #FFF3E0;
+      border: 1px solid var(--border-subtle);
+      color: var(--saffron-deep);
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .quiz-body {
+      max-width: 760px;
+      width: 100%;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .question-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+    }
+    .quiz-option-btn {
+      width: 100%;
+      text-align: left;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid rgba(0, 0, 0, 0.08);
+      background: #FAFAFC;
+      margin-top: 10px;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: var(--text-main);
+      justify-content: flex-start;
+      transition: var(--transition-fast);
+    }
+    .quiz-option-btn:hover {
+      border-color: var(--saffron-primary);
+      background: #FFF8EE;
+    }
+    .quiz-option-btn.selected {
+      border-color: var(--saffron-deep);
+      background: var(--saffron-light);
+      color: var(--saffron-deep);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       SECTION 6: REWARDS & COIN STORE
+       ========================================================================== */
+    .rewards-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 640px) {
+      .rewards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .rewards-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .reward-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition-smooth);
+    }
+    .reward-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-subtle);
+    }
+    .reward-emoji {
+      font-size: 48px;
+      margin-bottom: 12px;
+      display: inline-block;
+      animation: gentleBounce 2.5s ease-in-out infinite;
+    }
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .reward-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .reward-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .reward-cost-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-light);
+      color: var(--saffron-deep);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    /* ==========================================================================
+       HALF-SCREEN PENDING APPROVAL BOTTOM SHEET (CRUCIAL REQ)
+       ========================================================================== */
+    #pendingSheetOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(5px);
+      z-index: 10300;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    #pendingSheetOverlay.active { display: flex; }
+    
+    .half-sheet-card {
+      width: 100%;
+      max-width: 600px;
+      background: var(--bg-glass-strong);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 28px 28px 0 0;
+      padding: 30px 24px;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+      border-top: 1px solid rgba(255, 255, 255, 0.8);
+      position: relative;
+      animation: sheetSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes sheetSlideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .sheet-handle {
+      width: 44px;
+      height: 4px;
+      background: #D1D1D6;
+      border-radius: var(--radius-full);
+      margin: 0 auto 20px;
+    }
+    .sheet-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FFF8E1;
+      color: #F57F17;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .sheet-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+    .sheet-message {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .sheet-meta-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      font-size: 12.5px;
+    }
+
+    /* ==========================================================================
+       ADMIN COMMAND CENTER (FULL CRUD FOR ADMIN)
+       ========================================================================== */
+    #adminDrawer {
+      position: fixed;
+      inset: 0;
+      background: #FFFFFF;
+      z-index: 10600;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    #adminDrawer.active { display: flex; }
+    .admin-header {
+      background: #1B1D22;
+      color: #FFFFFF;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid #2E323B;
+    }
+    .admin-nav-tabs {
+      background: #252830;
+      padding: 8px 16px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      border-bottom: 1px solid #323642;
+    }
+    .admin-tab-btn {
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      color: #A0A4B0;
+      background: transparent;
+      font-size: 12.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .admin-tab-btn.active {
+      background: var(--saffron-primary);
+      color: #FFFFFF;
+    }
+    .admin-content-pane {
+      max-width: 1140px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    .admin-card {
+      background: #FFFFFF;
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .admin-table th {
+      text-align: left;
+      padding: 12px 14px;
+      background: #F8F9FA;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-card);
+      font-size: 11.5px;
+      text-transform: uppercase;
+    }
+    .admin-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-card);
+      vertical-align: middle;
+    }
+
+    /* Modal Framework for Forms (Admin Add/Edit etc.) */
+    .generic-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 10700;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .generic-modal.active { display: flex; }
+    .generic-modal-card {
+      width: 100%;
+      max-width: 520px;
+      background: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Form Styles */
+    .admin-input, .admin-select, .admin-textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid rgba(0,0,0,0.1);
+      font-size: 13.5px;
+      background: #FAFAFC;
+      margin-bottom: 14px;
+    }
+    .admin-input:focus, .admin-textarea:focus {
+      border-color: var(--saffron-primary);
+      background: #FFFFFF;
+    }
+
+    /* ==========================================================================
+       TOAST & CONFETTI
+       ========================================================================== */
+    #toastContainer {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 11000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+    .toast-msg {
+      pointer-events: auto;
+      background: #1E1E24;
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      font-size: 13.5px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 4px solid var(--saffron-primary);
+      animation: toastIn 0.3s ease;
+      min-width: 260px;
+    }
+    @keyframes toastIn {
+      from { transform: translateX(50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    #confettiCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10900;
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer"></div>
+
+  <!-- Emergency Broadcast Banner -->
+  <div id="emergencyBanner">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <i class="fa-solid fa-triangle-exclamation" style="font-size: 18px;"></i>
+      <span id="emergencyMsg">URGENT ANNOUNCEMENT: Electrical Portal Update in Progress</span>
+    </div>
+    <button onclick="dismissEmergency()" style="background:transparent; color:#fff; font-size:16px;">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <!-- ==========================================================================
+       UNIFIED AUTHENTICATION SCREEN (ONE LOGIN SYSTEM ONLY)
+       ========================================================================== -->
+  <div id="authOverlay">
+    <div class="auth-card">
+      <div class="divine-orb">
+        <span>ॐ</span>
+      </div>
+      <h2 class="auth-title">Swami Samarth Portal</h2>
+      <p class="auth-subtitle">॥ भिऊ नकोस मी तुझ्या पाठीशी आहे ॥</p>
+
+      <form id="authForm" onsubmit="handleAuth(event)">
+        <div class="form-group">
+          <label class="form-label">Identifier</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-user-astronaut input-icon"></i>
+            <input type="text" id="authIdentifier" class="auth-input" autocomplete="off" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Passkey</label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-shield-halved input-icon"></i>
+            <input type="password" id="authPasskey" class="auth-input" required />
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility()">
+              <i class="fa-regular fa-eye" id="togglePassIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-divine" id="authBtn">
+          <span class="btn-text">Enter Portal</span>
+          <div class="btn-spinner"></div>
+        </button>
+
+        <div class="auth-error" id="authErrorMsg">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span id="authErrorText">Invalid credentials entered.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MAIN APP SHELL
+       ========================================================================== -->
+  <div id="appShell">
+    
+    <!-- Top Header Navigation -->
+    <header class="top-header">
+      <div class="brand-group" onclick="switchNav('home')">
+        <div class="brand-icon">ॐ</div>
+        <div class="brand-text">
+          <h1>Swami Samarth <i class="fa-solid fa-bolt" style="font-size: 13px; color: var(--electric-orange);"></i></h1>
+          <p>Sadhana & Electrical Exam</p>
+        </div>
+      </div>
+
+      <!-- Desktop Nav Buttons -->
+      <nav class="desktop-nav">
+        <button class="nav-btn active" onclick="switchNav('home')" data-target="home">
+          <i class="fa-solid fa-house"></i> Home
+        </button>
+        <button class="nav-btn" onclick="switchNav('jap')" data-target="jap">
+          <i class="fa-solid fa-hands-praying"></i> Jap Mala
+        </button>
+        <button class="nav-btn" onclick="switchNav('tasks')" data-target="tasks">
+          <i class="fa-solid fa-list-check"></i> Tasks & Notes
+        </button>
+        <button class="nav-btn" onclick="switchNav('habits')" data-target="habits">
+          <i class="fa-solid fa-calendar-check"></i> Habit Tracker
+        </button>
+        <button class="nav-btn" onclick="switchNav('electrical')" data-target="electrical">
+          <i class="fa-solid fa-plug-circle-bolt"></i> Electrical & Exam
+        </button>
+        <button class="nav-btn" onclick="switchNav('rewards')" data-target="rewards">
+          <i class="fa-solid fa-gift"></i> Rewards
+        </button>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="header-actions">
+        <!-- Admin Command Pill Button (Only shown to Admin) -->
+        <div id="adminPill" class="admin-pill-badge" onclick="openAdminCommandCenter()">
+          <i class="fa-solid fa-crown"></i>
+          <span>Admin Center</span>
+        </div>
+
+        <!-- Coins & XP Counter -->
+        <div class="header-stats-pill">
+          <div class="pill-item coins" title="Sadhana Coins">
+            <i class="fa-solid fa-coins"></i>
+            <span id="headerCoins">0</span>
+          </div>
+          <div class="pill-item xp" title="Hard Work XP">
+            <i class="fa-solid fa-bolt-lightning"></i>
+            <span id="headerXp">0</span>
+          </div>
+        </div>
+
+        <!-- Logout Button -->
+        <button class="btn-icon" onclick="handleLogout()" title="Logout">
+          <i class="fa-solid fa-power-off"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container Body -->
+    <main class="main-container">
+
+      <!-- ====================================================================
+           VIEW 1: HOME DASHBOARD
+           ==================================================================== -->
+      <section id="view-home" class="view-section active">
+        
+        <!-- Divine Hero Banner -->
+        <div class="hero-banner">
+          <div class="hero-flex">
+            <div class="hero-left">
+              <div class="hero-om-orb">
+                <span>ॐ</span>
+              </div>
+              <div class="hero-texts">
+                <h2>Shree Swami Samarth</h2>
+                <div class="hero-sadhak-badge" id="userBadgeText">Devoted Sadhak & Electrical Engineer</div>
+                <div class="sacred-blessing-box">॥ भिऊ नकोस मी तुझ्या पाठीशी आहे ॥</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <button class="btn-divine" style="width: auto; padding: 0 20px; height: 44px;" onclick="switchNav('jap')">
+                <i class="fa-solid fa-hands-praying"></i> Start 108 Jap
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Statistics Counter Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <span class="stat-label">Sadhana Coins</span>
+              <div class="stat-icon-wrap" style="background:#FFF8E1; color:#FFA000;"><i class="fa-solid fa-coins"></i></div>
+            </div>
+            <div class="stat-val" id="statCoins">0</div>
+            <div class="stat-progress"><div class="stat-progress-bar" id="barCoins" style="width: 45%; background:#FFA000;"></div></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <span class="stat-label">Hard Work XP</span>
+              <div class="stat-icon-wrap" style="background:#E1F5FE; color:#0288D1;"><i class="fa-solid fa-bolt-lightning"></i></div>
+            </div>
+            <div class="stat-val" id="statXp">0</div>
+            <div class="stat-progress"><div class="stat-progress-bar" id="barXp" style="width: 30%; background:#0288D1;"></div></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <span class="stat-label">Day Streak</span>
+              <div class="stat-icon-wrap" style="background:#FBE9E7; color:#FF5722;"><i class="fa-solid fa-fire-flame-curved"></i></div>
+            </div>
+            <div class="stat-val" id="statStreak">1</div>
+            <div class="stat-progress"><div class="stat-progress-bar" id="barStreak" style="width: 60%; background:#FF5722;"></div></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <span class="stat-label">Tasks Done</span>
+              <div class="stat-icon-wrap" style="background:#E8F5E9; color:#2E7D32;"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+            <div class="stat-val" id="statTasks">0</div>
+            <div class="stat-progress"><div class="stat-progress-bar" id="barTasks" style="width: 20%; background:#2E7D32;"></div></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card-top">
+              <span class="stat-label">Pending Req.</span>
+              <div class="stat-icon-wrap" style="background:#EDE7F6; color:#512DA8;"><i class="fa-solid fa-hourglass-half"></i></div>
+            </div>
+            <div class="stat-val" id="statPending">0</div>
+            <div class="stat-progress"><div class="stat-progress-bar" id="barPending" style="width: 0%; background:#512DA8;"></div></div>
+          </div>
+        </div>
+
+        <!-- Active Notice Board on Home -->
+        <div class="section-header-wrap">
+          <h3 class="section-title"><i class="fa-solid fa-bullhorn"></i> Notice Board & Announcements</h3>
+        </div>
+        <div class="notices-list-container" id="homeNoticeContainer">
+          <!-- Dynamically populated or empty state -->
+        </div>
+
+      </section>
+
+      <!-- ====================================================================
+           VIEW 2: JAP MALA (108 SACRED MALA WITH AUDIO)
+           ==================================================================== -->
+      <section id="view-jap" class="view-section">
+        <div class="jap-container">
+          <div class="jap-display-card">
+            <div class="floating-mantra-box" id="floatingMantraContainer"></div>
+
+            <h2 style="font-size: 22px; font-weight: 700; color: var(--text-main);">108 Sacred Jap Mala</h2>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+              Chant with pure concentration. Tap bead by bead to complete 108 iterations.
+            </p>
+
+            <!-- Circular Bead Visualizer -->
+            <div class="mala-wheel-wrap">
+              <canvas id="malaCanvas" width="280" height="280"></canvas>
+              <button class="mala-tap-btn" id="malaTapBtn" onclick="handleJapTap()">
+                <span class="mala-count-number" id="japCount">0</span>
+                <span class="mala-count-sub">/ 108 Jap</span>
+              </button>
+            </div>
+
+            <div class="mala-controls-row">
+              <div class="jap-info-badge">
+                <i class="fa-solid fa-award"></i>
+                <span>Completed Rounds: <strong id="japRounds">0</strong></span>
+              </div>
+              <button class="btn-icon" onclick="resetJapManual()" title="Reset Counter">
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Jap History -->
+          <div class="jap-history-box">
+            <div class="section-header-wrap">
+              <h3 class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Jap Sadhana History</h3>
+            </div>
+            <div id="japHistoryContainer">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 3: TASKS & NOTES (WITH FULL-SCREEN NOTE READER)
+           ==================================================================== -->
+      <section id="view-tasks" class="view-section">
+        <div class="section-header-wrap">
+          <div class="tab-pills-bar">
+            <button class="tab-pill active" onclick="switchTaskTab('activeTasks')">Admin Tasks</button>
+            <button class="tab-pill" onclick="switchTaskTab('personalNotes')">Personal Notes</button>
+            <button class="tab-pill" onclick="switchTaskTab('taskHistory')">Submission History</button>
+          </div>
+          <button id="addNoteTopBtn" class="btn-divine" style="display:none; width:auto; padding:0 18px; height:38px; font-size:13px;" onclick="openAddNoteModal()">
+            <i class="fa-solid fa-plus"></i> Add Note
+          </button>
+        </div>
+
+        <!-- Tab 1: Tasks (Zero fake default content) -->
+        <div id="tabContentTasks">
+          <div class="tasks-grid" id="tasksListContainer">
+            <!-- Dynamically injected tasks or animated empty state -->
+          </div>
+        </div>
+
+        <!-- Tab 2: Personal Notes -->
+        <div id="tabContentNotes" style="display: none;">
+          <div class="notes-grid" id="notesListContainer">
+            <!-- User Notes -->
+          </div>
+        </div>
+
+        <!-- Tab 3: Task History -->
+        <div id="tabContentTaskHistory" style="display: none;">
+          <div id="taskHistoryContainer">
+            <!-- User task submissions & approvals -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 4: HABIT TRACKER (31-DAY MATRIX)
+           ==================================================================== -->
+      <section id="view-habits" class="view-section">
+        <div class="habit-container">
+          <div class="habit-quote">
+            <i class="fa-solid fa-quote-left" style="color: var(--gold-divine);"></i>
+            <span>"Success is the product of daily habits — not once-in-a-lifetime transformations." — James Clear</span>
+          </div>
+
+          <div class="section-header-wrap">
+            <h3 class="section-title"><i class="fa-solid fa-chart-line"></i> Monthly Habit Discipline Grid</h3>
+            <span id="currentMonthYearText" style="font-size: 13px; font-weight: 600; color: var(--saffron-deep);"></span>
+          </div>
+
+          <div class="habit-table-responsive">
+            <table class="habit-matrix" id="habitMatrixTable">
+              <!-- Matrix dynamically generated for 31 days -->
+            </table>
+          </div>
+
+          <div class="habit-stats-row">
+            <div class="habit-stat-box">
+              <div class="habit-stat-val" id="habitDailyScore">0%</div>
+              <div class="habit-stat-label">Today's Discipline</div>
+            </div>
+            <div class="habit-stat-box">
+              <div class="habit-stat-val" id="habitMonthlyScore">0%</div>
+              <div class="habit-stat-label">Monthly Score</div>
+            </div>
+            <div class="habit-stat-box">
+              <div class="habit-stat-val" id="habitCurrentStreak">0 Days</div>
+              <div class="habit-stat-label">Current Streak</div>
+            </div>
+            <div class="habit-stat-box">
+              <div class="habit-stat-val" id="habitBestStreak">0 Days</div>
+              <div class="habit-stat-label">Best Streak</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 5: ELECTRICAL ENGINEERING TOOLBOX & EXAM PORTAL
+           ==================================================================== -->
+      <section id="view-electrical" class="view-section">
+        <div class="section-header-wrap">
+          <div class="tab-pills-bar">
+            <button class="tab-pill active" onclick="switchElectricalTab('tools')">Electrical Toolbox (17+)</button>
+            <button class="tab-pill" onclick="switchElectricalTab('quizzes')">Mock Quizzes</button>
+            <button class="tab-pill" onclick="switchElectricalTab('testSeries')">Exam Test Series</button>
+            <button class="tab-pill" onclick="switchElectricalTab('examResults')">Result History</button>
+          </div>
+        </div>
+
+        <!-- Electrical Tools Grid -->
+        <div id="tabContentElecTools">
+          <div class="electrical-grid" id="toolsGridContainer">
+            <!-- 17 Functional calculators + Admin custom tools -->
+          </div>
+        </div>
+
+        <!-- Quizzes Grid -->
+        <div id="tabContentQuizzes" style="display: none;">
+          <div class="tasks-grid" id="quizzesGridContainer"></div>
+        </div>
+
+        <!-- Test Series Grid -->
+        <div id="tabContentTestSeries" style="display: none;">
+          <div class="tasks-grid" id="testSeriesGridContainer"></div>
+        </div>
+
+        <!-- Exam Results -->
+        <div id="tabContentExamResults" style="display: none;">
+          <div id="examResultsContainer"></div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           VIEW 6: REWARDS & COIN STORE
+           ==================================================================== -->
+      <section id="view-rewards" class="view-section">
+        <div class="section-header-wrap">
+          <div class="tab-pills-bar">
+            <button class="tab-pill active" onclick="switchRewardTab('store')">Sadhana Store</button>
+            <button class="tab-pill" onclick="switchRewardTab('history')">Redemption History</button>
+          </div>
+        </div>
+
+        <div id="tabContentRewardStore">
+          <div class="rewards-grid" id="rewardsGridContainer">
+            <!-- Admin created rewards or empty state -->
+          </div>
+        </div>
+
+        <div id="tabContentRewardHistory" style="display: none;">
+          <div id="redeemHistoryContainer"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+      <button class="bottom-nav-item active" onclick="switchNav('home')" data-target="home">
+        <i class="fa-solid fa-house"></i>
+        <span>Home</span>
+      </button>
+      <button class="bottom-nav-item" onclick="switchNav('jap')" data-target="jap">
+        <i class="fa-solid fa-hands-praying"></i>
+        <span>Jap</span>
+      </button>
+      <button class="bottom-nav-item" onclick="switchNav('tasks')" data-target="tasks">
+        <i class="fa-solid fa-list-check"></i>
+        <span>Tasks</span>
+      </button>
+      <button class="bottom-nav-item" onclick="switchNav('habits')" data-target="habits">
+        <i class="fa-solid fa-calendar-check"></i>
+        <span>Habits</span>
+      </button>
+      <button class="bottom-nav-item" onclick="switchNav('electrical')" data-target="electrical">
+        <i class="fa-solid fa-bolt"></i>
+        <span>Exam</span>
+      </button>
+      <button class="bottom-nav-item" onclick="switchNav('rewards')" data-target="rewards">
+        <i class="fa-solid fa-gift"></i>
+        <span>Rewards</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ==========================================================================
+       FULL SCREEN NOTE READER (NO MODAL - DEDICATED FULL SCREEN VIEW)
+       ========================================================================== -->
+  <div id="fullScreenNoteView">
+    <div class="note-fullscreen-header">
+      <button class="btn-divine" style="width: auto; height: 38px; padding: 0 16px; background:#ECEFF1; color: var(--text-main); box-shadow:none;" onclick="closeFullScreenNote()">
+        <i class="fa-solid fa-arrow-left"></i> Back to Notes
+      </button>
+      <div style="display: flex; gap: 8px;">
+        <button id="noteEditBtn" class="btn-icon" title="Edit Note"><i class="fa-solid fa-pen-to-square"></i></button>
+        <button id="noteDeleteBtn" class="btn-icon" style="color: #D32F2F;" title="Delete Note"><i class="fa-solid fa-trash-can"></i></button>
+      </div>
+    </div>
+    <div class="note-fullscreen-body">
+      <h1 class="note-fullscreen-title" id="fullNoteTitle">Note Title</h1>
+      <div class="note-fullscreen-meta">
+        <span><i class="fa-regular fa-calendar"></i> <span id="fullNoteDate"></span></span>
+        <span><i class="fa-solid fa-tag"></i> <span id="fullNoteCategory">General</span></span>
+      </div>
+      <div class="note-fullscreen-content" id="fullNoteContent"></div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       HALF-SCREEN PENDING APPROVAL BOTTOM SHEET (FOR SUBMITTED TASKS & REDEEMS)
+       ========================================================================== -->
+  <div id="pendingSheetOverlay" onclick="closePendingSheetOnBackdrop(event)">
+    <div class="half-sheet-card">
+      <div class="sheet-handle"></div>
+      <div class="sheet-badge">
+        <i class="fa-solid fa-clock-rotate-left"></i> Pending Admin Approval
+      </div>
+      <h3 class="sheet-title" id="pendingSheetTitle">Request Submitted</h3>
+      <p class="sheet-message" id="pendingSheetMessage">Your submission has been queued for verification.</p>
+
+      <div class="sheet-meta-card">
+        <div>
+          <span style="color: var(--text-light); display:block;">Item</span>
+          <strong id="pendingSheetItemName">Task Name</strong>
+        </div>
+        <div>
+          <span style="color: var(--text-light); display:block;">Reward / Cost</span>
+          <strong id="pendingSheetRewardVal">+50 Coins | +100 XP</strong>
+        </div>
+        <div>
+          <span style="color: var(--text-light); display:block;">Submitted Time</span>
+          <span id="pendingSheetTime">Just now</span>
+        </div>
+        <div>
+          <span style="color: var(--text-light); display:block;">Current Balance</span>
+          <span id="pendingSheetCurrentCoins">0 Coins</span>
+        </div>
+      </div>
+
+      <button class="btn-divine" onclick="closePendingSheet()">
+        Got It, Await Approval
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ELECTRICAL CALCULATOR MODAL (17 DYNAMIC ENGINES)
+       ========================================================================== -->
+  <div id="calculatorModal" onclick="closeCalcModalOnBackdrop(event)">
+    <div class="calc-box">
+      <div style="display: flex; align-items:center; justify-content:space-between; margin-bottom: 16px;">
+        <h3 id="calcModalTitle" style="font-size: 18px; font-weight: 700; color: var(--text-main);">Calculator</h3>
+        <button class="btn-icon" onclick="closeCalcModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="calc-formula-display" id="calcFormula">Formula: --</div>
+
+      <div id="calcInputsContainer">
+        <!-- Injected inputs based on tool -->
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button class="btn-divine" style="flex: 1;" onclick="executeCalculator()">Calculate</button>
+        <button class="btn-icon" style="width: 48px; height: 48px; border-radius: var(--radius-md);" onclick="resetCalculator()" title="Reset">
+          <i class="fa-solid fa-rotate-left"></i>
+        </button>
+      </div>
+
+      <div class="calc-result-box" id="calcResultBox">
+        <div>
+          <div style="font-size: 11px; text-transform: uppercase; color: #558B2F; font-weight: 600;">Computed Value</div>
+          <div class="calc-result-value" id="calcResultOutput">0.00</div>
+        </div>
+        <button class="btn-icon" onclick="copyCalcResult()" title="Copy Result">
+          <i class="fa-regular fa-copy"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       QUIZ & EXAM TEST SERIES RUNNER OVERLAY
+       ========================================================================== -->
+  <div id="quizRunnerOverlay">
+    <div class="quiz-runner-header">
+      <div>
+        <h3 id="quizTitleHeader" style="font-size: 17px; font-weight: 700;">Electrical Exam</h3>
+        <span id="quizQuestionProgress" style="font-size: 12px; color: var(--text-muted);">Question 1 of 5</span>
+      </div>
+      <div class="quiz-timer-pill">
+        <i class="fa-regular fa-clock"></i>
+        <span id="quizTimerDisplay">10:00</span>
+      </div>
+      <button class="btn-icon" onclick="abortQuiz()" title="Exit Quiz"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="quiz-body">
+      <div class="question-card">
+        <h4 id="quizQuestionText" style="font-size: 18px; font-weight: 700; margin-bottom: 20px; line-height: 1.5;">Question text goes here?</h4>
+        <div id="quizOptionsList">
+          <!-- 4 Interactive choices -->
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 28px;">
+          <button id="quizPrevBtn" class="btn-divine" style="background:#ECEFF1; color:var(--text-main); width:auto; padding:0 22px; height:42px;" onclick="prevQuestion()">
+            Previous
+          </button>
+          <button id="quizNextBtn" class="btn-divine" style="width:auto; padding:0 26px; height:42px;" onclick="nextQuestion()">
+            Next Question
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       ADMIN COMMAND CENTER (FULL CRUD DRAWER FOR ADMIN)
+       ========================================================================== -->
+  <div id="adminDrawer">
+    <div class="admin-header">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <i class="fa-solid fa-shield-halved" style="color: var(--saffron-primary); font-size: 20px;"></i>
+        <div>
+          <h2 style="font-size: 16px; font-weight: 700;">Admin Command Center</h2>
+          <p style="font-size: 11px; color: #8C90A0;">Full Content Control & Verifications</p>
+        </div>
+      </div>
+      <button class="btn-icon" style="background: #2E323B; color: #FFF; border: none;" onclick="closeAdminCommandCenter()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="admin-nav-tabs">
+      <button class="admin-tab-btn active" onclick="switchAdminTab('overview')">Overview</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('approvals')">Pending Approvals</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('tasks')">Task Manager</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('rewards')">Reward Manager</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('notices')">Notice Board</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('habits')">Habit Manager</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('exams')">Quiz & Exam Builder</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('tools')">Tool Builder</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('broadcast')">Emergency Broadcast</button>
+      <button class="admin-tab-btn" onclick="switchAdminTab('logs')">Activity Audit Log</button>
+    </div>
+
+    <div class="admin-content-pane" id="adminTabContent">
+      <!-- Injected Dynamically based on Admin Tab -->
+    </div>
+  </div>
+
+  <!-- GENERIC ADMIN MODAL FOR FORMS (Add/Edit Task, Reward, Notice, etc.) -->
+  <div class="generic-modal" id="genericModal" onclick="closeGenericModalOnBackdrop(event)">
+    <div class="generic-modal-card">
+      <div style="display: flex; align-items:center; justify-content:space-between; margin-bottom: 20px;">
+        <h3 id="modalHeaderTitle" style="font-size: 17px; font-weight: 700;">Create Item</h3>
+        <button class="btn-icon" onclick="closeGenericModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="genericForm" onsubmit="handleGenericFormSubmit(event)">
+        <div id="modalFormFields"></div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+          <button type="submit" class="btn-divine" style="flex:1;">Save Content</button>
+          <button type="button" class="btn-divine" style="background:#ECEFF1; color:var(--text-main); flex:1;" onclick="closeGenericModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT ARCHITECTURE & ENGINES
+       ========================================================================== -->
+  <script>
+    /**
+     * SWAMI SAMARTH SADHANA, HABIT & ELECTRICAL PORTAL
+     * Complete Production Single-File Architecture
+     */
+
+    // --- CONFIGURATION & UNIFIED INTERNAL CREDENTIALS ---
+    // (Admin requires only Passkey: 194739. Never displayed in UI)
+    const AUTH_CONFIG = {
+      user: { id: "Swami", pass: "181920" },
+      admin: { pass: "194739" }
+    };
+
+    // --- STORAGE KEYS ---
+    const STORAGE_KEYS = {
+      AUTH_SESSION: 'app_session',
+      USER_STATS: 'app_stats',
+      TASKS: 'app_tasks',
+      TASK_HISTORY: 'app_task_history',
+      NOTES: 'app_notes',
+      HABITS: 'app_habits',
+      HABIT_LOGS: 'app_habit_logs',
+      REWARDS: 'app_rewards',
+      REDEEM_HISTORY: 'app_redeem_history',
+      NOTICES: 'app_notices',
+      EMERGENCY: 'app_emergency',
+      QUIZZES: 'app_quizzes',
+      TEST_SERIES: 'app_test_series',
+      EXAM_RESULTS: 'app_test_results',
+      TOOLS: 'app_tools',
+      ACTIVITY_LOGS: 'app_activity_logs',
+      JAP_HISTORY: 'app_jap_history'
+    };
+
+    // --- STORAGE ENGINE (SAFE & RESILIENT) ---
+    const StorageEngine = {
+      get(key, fallback = []) {
+        try {
+          const item = localStorage.getItem(key);
+          return item ? JSON.parse(item) : fallback;
+        } catch (e) {
+          console.error("Storage read error:", e);
+          return fallback;
+        }
+      },
+      set(key, value) {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+        } catch (e) {
+          console.error("Storage write error:", e);
+        }
+      },
+      remove(key) {
+        localStorage.removeItem(key);
+      }
+    };
+
+    // --- AUDIO ENGINE (WEB AUDIO API SYNTHESIS - NO EXTERNAL MP3s) ---
+    const AudioEngine = {
+      ctx: null,
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      },
+      playWoodenClick() {
+        try {
+          this.init();
+          if (!this.ctx) return;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(80, this.ctx.currentTime + 0.05);
+
+          gain.gain.setValueAtTime(0.7, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.05);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.06);
+
+          if (navigator.vibrate) navigator.vibrate(15);
+        } catch (e) {}
+      },
+      playTempleBell() {
+        try {
+          this.init();
+          if (!this.ctx) return;
+          const freqs = [528, 1056, 1584, 2112];
+          freqs.forEach((f, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(f, this.ctx.currentTime);
+            
+            const startGain = 0.4 / (idx + 1);
+            gain.gain.setValueAtTime(startGain, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 3.2);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + 3.3);
+          });
+          if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+        } catch (e) {}
+      },
+      playSuccessChime() {
+        try {
+          this.init();
+          if (!this.ctx) return;
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, i) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime + i * 0.1);
+            gain.gain.setValueAtTime(0.2, this.ctx.currentTime + i * 0.1);
+            gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + i * 0.1 + 0.6);
+
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(this.ctx.currentTime + i * 0.1);
+            osc.stop(this.ctx.currentTime + i * 0.1 + 0.65);
+          });
+        } catch (e) {}
+      }
+    };
+
+    // --- ACTIVITY LOG ENGINE ---
+    function addActivityLog(action, type, details) {
+      const logs = StorageEngine.get(STORAGE_KEYS.ACTIVITY_LOGS, []);
+      const now = new Date();
+      const newEntry = {
+        id: 'LOG_' + Date.now(),
+        action,
+        type,
+        details,
+        date: now.toLocaleDateString(),
+        time: now.toLocaleTimeString()
+      };
+      logs.unshift(newEntry);
+      StorageEngine.set(STORAGE_KEYS.ACTIVITY_LOGS, logs.slice(0, 300));
+    }
+
+    // --- APP STATE ---
+    let CurrentUser = null;
+    let CurrentJapCount = 0;
+    let CurrentJapRounds = 0;
+    let ActiveQuizState = null;
+    let ActiveCalcTool = null;
+    let ModalFormContext = null;
+
+    // --- INITIALIZE PORTAL SYSTEM ---
+    window.addEventListener('DOMContentLoaded', () => {
+      initAppStats();
+      initHabitDefaults();
+      checkAuthSession();
+      renderHomeStats();
+      renderNotices();
+      checkEmergencyBroadcast();
+      initMalaCanvas();
+      renderAllTools();
+    });
+
+    function initAppStats() {
+      const defaultStats = {
+        coins: 100,
+        xp: 250,
+        dayStreak: 3,
+        completedTasks: 0,
+        pendingCount: 0
+      };
+      const stats = StorageEngine.get(STORAGE_KEYS.USER_STATS, null);
+      if (!stats) {
+        StorageEngine.set(STORAGE_KEYS.USER_STATS, defaultStats);
+      }
+    }
+
+    function initHabitDefaults() {
+      const habits = StorageEngine.get(STORAGE_KEYS.HABITS, null);
+      if (!habits) {
+        StorageEngine.set(STORAGE_KEYS.HABITS, []);
+      }
+    }
+
+    // --- AUTH ENGINE ---
+    function handleAuth(e) {
+      e.preventDefault();
+      const idInput = document.getElementById('authIdentifier').value.trim();
+      const passInput = document.getElementById('authPasskey').value.trim();
+      const btn = document.getElementById('authBtn');
+      const errBox = document.getElementById('authErrorMsg');
+
+      errBox.classList.remove('visible');
+      btn.classList.add('loading');
+
+      setTimeout(() => {
+        btn.classList.remove('loading');
+
+        // Check ADMIN: Only Passkey Required ("194739")
+        if (passInput === AUTH_CONFIG.admin.pass) {
+          loginSuccess('admin', 'Swami Samarth Admin');
+        } 
+        // Check USER: ID ("Swami") and Passkey ("181920") Required
+        else if (idInput === AUTH_CONFIG.user.id && passInput === AUTH_CONFIG.user.pass) {
+          loginSuccess('user', 'Swami Sadhak');
+        } 
+        else {
+          // Failure
+          errBox.classList.add('visible');
+          const card = document.querySelector('.auth-card');
+          card.classList.add('shake');
+          setTimeout(() => card.classList.remove('shake'), 450);
+        }
+      }, 500);
+    }
+
+    function loginSuccess(role, name) {
+      CurrentUser = { role, name };
+      StorageEngine.set(STORAGE_KEYS.AUTH_SESSION, CurrentUser);
+      addActivityLog('Login', 'AUTH', `${name} logged in successfully`);
+
+      AudioEngine.playSuccessChime();
+      document.getElementById('authOverlay').classList.add('hidden');
+      applyUserRoleUI();
+      showToast(`Welcome ${name}! ॥ श्री स्वामी समर्थ ॥`);
+      renderHomeStats();
+      renderNotices();
+      checkEmergencyBroadcast();
+    }
+
+    function checkAuthSession() {
+      const session = StorageEngine.get(STORAGE_KEYS.AUTH_SESSION, null);
+      if (session && session.role) {
+        CurrentUser = session;
+        document.getElementById('authOverlay').classList.add('hidden');
+        applyUserRoleUI();
+      } else {
+        document.getElementById('authOverlay').classList.remove('hidden');
+      }
+    }
+
+    function applyUserRoleUI() {
+      const adminPill = document.getElementById('adminPill');
+      const badge = document.getElementById('userBadgeText');
+      if (CurrentUser && CurrentUser.role === 'admin') {
+        adminPill.classList.add('active');
+        badge.textContent = 'Command Center Admin & Chief Engineer';
+      } else {
+        adminPill.classList.remove('active');
+        badge.textContent = 'Devoted Sadhak & Electrical Engineer';
+      }
+    }
+
+    function handleLogout() {
+      addActivityLog('Logout', 'AUTH', `${CurrentUser ? CurrentUser.name : 'User'} logged out`);
+      StorageEngine.remove(STORAGE_KEYS.AUTH_SESSION);
+      CurrentUser = null;
+      document.getElementById('authIdentifier').value = '';
+      document.getElementById('authPasskey').value = '';
+      document.getElementById('authOverlay').classList.remove('hidden');
+      closeAdminCommandCenter();
+      showToast('Logged out safely');
+    }
+
+    function togglePasswordVisibility() {
+      const input = document.getElementById('authPasskey');
+      const icon = document.getElementById('togglePassIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+
+    // --- NAVIGATION ENGINE ---
+    function switchNav(target) {
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      const targetSec = document.getElementById(`view-${target}`);
+      if (targetSec) targetSec.classList.add('active');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-target') === target);
+      });
+      document.querySelectorAll('.bottom-nav-item').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-target') === target);
+      });
+
+      if (target === 'home') { renderHomeStats(); renderNotices(); }
+      if (target === 'tasks') { renderTasks(); renderNotes(); renderTaskHistory(); }
+      if (target === 'habits') { renderHabitMatrix(); }
+      if (target === 'electrical') { renderAllTools(); renderQuizzes(); renderTestSeries(); renderExamResults(); }
+      if (target === 'rewards') { renderRewards(); renderRedeemHistory(); }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- STATS SYSTEM ---
+    function getUserStats() {
+      return StorageEngine.get(STORAGE_KEYS.USER_STATS, {
+        coins: 100, xp: 250, dayStreak: 3, completedTasks: 0, pendingCount: 0
+      });
+    }
+
+    function updateUserStats(updateFn) {
+      const stats = getUserStats();
+      updateFn(stats);
+      StorageEngine.set(STORAGE_KEYS.USER_STATS, stats);
+      renderHomeStats();
+    }
+
+    function renderHomeStats() {
+      const stats = getUserStats();
+      
+      document.getElementById('headerCoins').textContent = stats.coins;
+      document.getElementById('headerXp').textContent = stats.xp;
+
+      animateCounter('statCoins', stats.coins);
+      animateCounter('statXp', stats.xp);
+      animateCounter('statStreak', stats.dayStreak);
+      animateCounter('statTasks', stats.completedTasks);
+      animateCounter('statPending', stats.pendingCount);
+
+      document.getElementById('barCoins').style.width = Math.min(100, (stats.coins / 500) * 100) + '%';
+      document.getElementById('barXp').style.width = Math.min(100, (stats.xp / 1000) * 100) + '%';
+      document.getElementById('barStreak').style.width = Math.min(100, (stats.dayStreak / 30) * 100) + '%';
+      document.getElementById('barTasks').style.width = Math.min(100, (stats.completedTasks / 20) * 100) + '%';
+      document.getElementById('barPending').style.width = Math.min(100, (stats.pendingCount / 5) * 100) + '%';
+    }
+
+    function animateCounter(elemId, targetVal) {
+      const elem = document.getElementById(elemId);
+      if (!elem) return;
+      const current = parseInt(elem.textContent) || 0;
+      if (current === targetVal) return;
+      
+      const step = (targetVal - current) / 12;
+      let count = current;
+      const interval = setInterval(() => {
+        count += step;
+        if ((step > 0 && count >= targetVal) || (step < 0 && count <= targetVal)) {
+          elem.textContent = targetVal;
+          clearInterval(interval);
+        } else {
+          elem.textContent = Math.round(count);
+        }
+      }, 25);
+    }
+
+    // --- NOTICE BOARD ENGINE ---
+    function renderNotices() {
+      const notices = StorageEngine.get(STORAGE_KEYS.NOTICES, []);
+      const container = document.getElementById('homeNoticeContainer');
+      const activeNotices = notices.filter(n => n.active !== false);
+
+      if (activeNotices.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-state-icon"><i class="fa-solid fa-bullhorn"></i></div>
+            <div class="empty-state-title">No notices posted yet</div>
+            <div class="empty-state-desc">Official announcements, exams, and sadhana guidelines will be posted here by Admin.</div>
+          </div>
+        `;
+        return;
+      }
+
+      activeNotices.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+
+      container.innerHTML = activeNotices.map(n => `
+        <div class="notice-card ${n.pinned ? 'pinned' : ''} ${n.urgent ? 'urgent' : ''}" onclick="viewFullNotice('${n.id}')">
+          <div style="font-size: 20px; color: ${n.urgent ? '#D32F2F' : 'var(--saffron-primary)'}; margin-top:2px;">
+            <i class="fa-solid ${n.urgent ? 'fa-triangle-exclamation' : (n.pinned ? 'fa-thumbtack' : 'fa-bell')}"></i>
+          </div>
+          <div style="flex:1;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <span class="notice-badge ${n.pinned ? 'badge-pinned' : (n.urgent ? 'badge-urgent' : 'badge-regular')}">
+                ${n.pinned ? 'PINNED' : (n.urgent ? 'URGENT' : 'NOTICE')}
+              </span>
+              <span style="font-size:11.5px; color:var(--text-light);">${n.date}</span>
+            </div>
+            <h4 style="font-size:15px; font-weight:700; color:var(--text-main); margin-bottom:4px;">${escapeHTML(n.title)}</h4>
+            <p style="font-size:13px; color:var(--text-muted); line-height:1.5;">${escapeHTML(n.message)}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function viewFullNotice(id) {
+      const notices = StorageEngine.get(STORAGE_KEYS.NOTICES, []);
+      const notice = notices.find(n => n.id === id);
+      if (!notice) return;
+      alert(`[${notice.title}]\n\n${notice.message}\n\nPosted: ${notice.date} at ${notice.time}`);
+    }
+
+    function checkEmergencyBroadcast() {
+      const emergency = StorageEngine.get(STORAGE_KEYS.EMERGENCY, null);
+      const banner = document.getElementById('emergencyBanner');
+      if (emergency && emergency.active) {
+        document.getElementById('emergencyMsg').textContent = emergency.message;
+        banner.classList.add('active');
+      } else {
+        banner.classList.remove('active');
+      }
+    }
+
+    function dismissEmergency() {
+      document.getElementById('emergencyBanner').classList.remove('active');
+    }
+
+    // --- JAP MALA ENGINE (108 SACRED COUNTER) ---
+    function initMalaCanvas() {
+      const canvas = document.getElementById('malaCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      drawMalaBeads(ctx, 0);
+    }
+
+    function drawMalaBeads(ctx, count) {
+      ctx.clearRect(0, 0, 280, 280);
+      const centerX = 140;
+      const centerY = 140;
+      const radius = 120;
+      const totalBeads = 108;
+
+      for (let i = 0; i < totalBeads; i++) {
+        const angle = (i / totalBeads) * (Math.PI * 2) - Math.PI / 2;
+        const x = centerX + Math.cos(angle) * radius;
+        const y = centerY + Math.sin(angle) * radius;
+
+        ctx.beginPath();
+        ctx.arc(x, y, i <= count ? 3.5 : 2.5, 0, Math.PI * 2);
+
+        if (i < count) {
+          ctx.fillStyle = '#E65100';
+        } else if (i === count) {
+          ctx.fillStyle = '#D4AF37';
+        } else {
+          ctx.fillStyle = 'rgba(212, 175, 55, 0.25)';
+        }
+        ctx.fill();
+      }
+    }
+
+    function handleJapTap() {
+      CurrentJapCount++;
+      AudioEngine.playWoodenClick();
+
+      showFloatingSacredMantra();
+
+      if (CurrentJapCount >= 108) {
+        CurrentJapRounds++;
+        CurrentJapCount = 0;
+        AudioEngine.playTempleBell();
+        triggerConfetti();
+
+        updateUserStats(s => {
+          s.coins += 50;
+          s.xp += 100;
+        });
+
+        saveJapHistoryRecord(1, 50, 100);
+        addActivityLog('Jap Completed', 'SADHANA', 'Completed 108 rounds of Jap Mala (+50 Coins, +100 XP)');
+
+        showToast('108 Jap Completed! +50 Coins & +100 XP blessed!');
+      }
+
+      document.getElementById('japCount').textContent = CurrentJapCount;
+      document.getElementById('japRounds').textContent = CurrentJapRounds;
+
+      const canvas = document.getElementById('malaCanvas');
+      if (canvas) drawMalaBeads(canvas.getContext('2d'), CurrentJapCount);
+    }
+
+    function showFloatingSacredMantra() {
+      const container = document.getElementById('floatingMantraContainer');
+      const span = document.createElement('div');
+      span.className = 'floating-text';
+      span.textContent = 'श्री स्वामी समर्थ';
+      container.appendChild(span);
+      setTimeout(() => span.remove(), 1100);
+    }
+
+    function resetJapManual() {
+      if (confirm('Reset current Jap round count to 0?')) {
+        CurrentJapCount = 0;
+        document.getElementById('japCount').textContent = 0;
+        const canvas = document.getElementById('malaCanvas');
+        if (canvas) drawMalaBeads(canvas.getContext('2d'), 0);
+      }
+    }
+
+    function saveJapHistoryRecord(rounds, coins, xp) {
+      const history = StorageEngine.get(STORAGE_KEYS.JAP_HISTORY, []);
+      const now = new Date();
+      history.unshift({
+        id: 'JAP_' + Date.now(),
+        date: now.toLocaleDateString(),
+        time: now.toLocaleTimeString(),
+        rounds,
+        coins,
+        xp
+      });
+      StorageEngine.set(STORAGE_KEYS.JAP_HISTORY, history);
+      renderJapHistory();
+    }
+
+    function renderJapHistory() {
+      const history = StorageEngine.get(STORAGE_KEYS.JAP_HISTORY, []);
+      const container = document.getElementById('japHistoryContainer');
+      if (!container) return;
+
+      if (history.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box" style="padding: 24px;">
+            <p style="font-size:13px; color:var(--text-muted);">No completed rounds recorded yet. Tap the Jap Mala to begin!</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = history.slice(0, 5).map(h => `
+        <div class="history-card">
+          <div>
+            <strong>108 Jap Round Completed</strong>
+            <div style="font-size:11.5px; color:var(--text-light);">${h.date} at ${h.time}</div>
+          </div>
+          <div style="font-weight:700; color:var(--amber-solar);">+${h.coins} Coins | +${h.xp} XP</div>
+        </div>
+      `).join('');
+    }
+
+    // --- TASK ENGINE & PENDING APPROVAL FLOW ---
+    function switchTaskTab(tab) {
+      document.querySelectorAll('#view-tasks .tab-pill').forEach((btn, idx) => {
+        btn.classList.toggle('active', (tab === 'activeTasks' && idx === 0) || (tab === 'personalNotes' && idx === 1) || (tab === 'taskHistory' && idx === 2));
+      });
+      document.getElementById('tabContentTasks').style.display = tab === 'activeTasks' ? 'block' : 'none';
+      document.getElementById('tabContentNotes').style.display = tab === 'personalNotes' ? 'block' : 'none';
+      document.getElementById('tabContentTaskHistory').style.display = tab === 'taskHistory' ? 'block' : 'none';
+
+      document.getElementById('addNoteTopBtn').style.display = tab === 'personalNotes' ? 'inline-flex' : 'none';
+
+      if (tab === 'activeTasks') renderTasks();
+      if (tab === 'personalNotes') renderNotes();
+      if (tab === 'taskHistory') renderTaskHistory();
+    }
+
+    function renderTasks() {
+      const tasks = StorageEngine.get(STORAGE_KEYS.TASKS, []);
+      const container = document.getElementById('tasksListContainer');
+      const activeTasks = tasks.filter(t => t.enabled !== false);
+
+      if (activeTasks.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon"><i class="fa-solid fa-list-check"></i></div>
+            <div class="empty-state-title">No tasks added yet</div>
+            <div class="empty-state-desc">The Admin can create electrical and sadhana tasks from the Admin Command Center.</div>
+          </div>
+        `;
+        return;
+      }
+
+      const userHistory = StorageEngine.get(STORAGE_KEYS.TASK_HISTORY, []);
+
+      container.innerHTML = activeTasks.map(t => {
+        const submission = userHistory.find(h => h.taskId === t.id);
+        const status = submission ? submission.status : 'Available';
+
+        return `
+          <div class="item-card">
+            <div>
+              <div class="item-header">
+                <h4 class="item-title">${escapeHTML(t.title)}</h4>
+                <span class="status-badge status-${status.toLowerCase().replace(/\s+/g, '')}">${status}</span>
+              </div>
+              <p class="item-desc">${escapeHTML(t.description || 'No description provided.')}</p>
+            </div>
+            <div>
+              <div style="font-size:12px; color:var(--text-light); margin-bottom:10px;">
+                <i class="fa-regular fa-clock"></i> Deadline: ${t.deadline || 'Flexible'} | Category: ${t.category || 'General'}
+              </div>
+              <div class="item-footer">
+                <span class="reward-tag"><i class="fa-solid fa-coins"></i> +${t.coins || 50} Coins | +${t.xp || 100} XP</span>
+                ${status === 'Available' ? `
+                  <button class="btn-divine" style="height:36px; padding:0 14px; font-size:12.5px; width:auto;" onclick="submitTaskForApproval('${t.id}')">
+                    Complete & Submit
+                  </button>
+                ` : `
+                  <button class="btn-divine" style="height:36px; padding:0 14px; font-size:12.5px; width:auto; background:#ECEFF1; color:var(--text-muted); box-shadow:none;" disabled>
+                    ${status === 'Pending' ? 'In Review' : status}
+                  </button>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function submitTaskForApproval(taskId) {
+      const tasks = StorageEngine.get(STORAGE_KEYS.TASKS, []);
+      const task = tasks.find(t => t.id === taskId);
+      if (!task) return;
+
+      const history = StorageEngine.get(STORAGE_KEYS.TASK_HISTORY, []);
+      const now = new Date();
+      const submission = {
+        id: 'SUB_' + Date.now(),
+        taskId: task.id,
+        taskTitle: task.title,
+        coins: task.coins || 50,
+        xp: task.xp || 100,
+        status: 'Pending',
+        submittedDate: now.toLocaleDateString(),
+        submittedTime: now.toLocaleTimeString()
+      };
+
+      history.unshift(submission);
+      StorageEngine.set(STORAGE_KEYS.TASK_HISTORY, history);
+
+      updateUserStats(s => s.pendingCount++);
+
+      addActivityLog('Task Submitted', 'TASKS', `Submitted task "${task.title}" for Admin Approval`);
+
+      openPendingApprovalSheet({
+        title: 'Task Submitted for Verification',
+        message: 'Task submitted for Admin approval. Reward coins and XP will be credited once verified.',
+        itemName: task.title,
+        rewardVal: `+${task.coins || 50} Coins | +${task.xp || 100} XP`,
+        time: `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`,
+        currentCoins: getUserStats().coins + ' Coins'
+      });
+
+      renderTasks();
+      renderTaskHistory();
+    }
+
+    function renderTaskHistory() {
+      const history = StorageEngine.get(STORAGE_KEYS.TASK_HISTORY, []);
+      const container = document.getElementById('taskHistoryContainer');
+      if (history.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-state-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div class="empty-state-title">No task submission history</div>
+            <div class="empty-state-desc">Your submitted, approved, and completed tasks will be logged here permanently.</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = history.map(h => `
+        <div class="item-card" style="margin-bottom:12px;">
+          <div class="item-header">
+            <div>
+              <h4 class="item-title">${escapeHTML(h.taskTitle)}</h4>
+              <div style="font-size:12px; color:var(--text-light); margin-top:3px;">Submitted: ${h.submittedDate} at ${h.submittedTime}</div>
+            </div>
+            <span class="status-badge status-${h.status.toLowerCase()}">${h.status}</span>
+          </div>
+          <div class="item-footer" style="padding-top:10px;">
+            <span class="reward-tag"><i class="fa-solid fa-coins"></i> +${h.coins} Coins | +${h.xp} XP</span>
+            <span style="font-size:12px; color:var(--text-muted);">
+              ${h.reviewedTime ? `Reviewed: ${h.reviewedTime}` : 'Pending Admin Verification'}
+            </span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- NOTES ENGINE & FULL SCREEN READER VIEW ---
+    function renderNotes() {
+      const notes = StorageEngine.get(STORAGE_KEYS.NOTES, []);
+      const container = document.getElementById('notesListContainer');
+
+      if (notes.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon"><i class="fa-solid fa-book-open"></i></div>
+            <div class="empty-state-title">No personal notes added yet</div>
+            <div class="empty-state-desc">Write your personal sadhana reflections, formula cheat-sheets, and study notes here.</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = notes.map(n => `
+        <div class="item-card">
+          <div>
+            <div class="item-header">
+              <h4 class="item-title">${escapeHTML(n.title)}</h4>
+              <span class="reward-tag" style="background:#ECEFF1; color:#455A64;">${escapeHTML(n.category || 'General')}</span>
+            </div>
+            <p class="note-preview-text">${escapeHTML(n.content)}</p>
+          </div>
+          <div class="item-footer">
+            <span style="font-size:11.5px; color:var(--text-light);">${n.date}</span>
+            <button class="read-more-btn" onclick="openFullScreenNote('${n.id}')">
+              Read More <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openAddNoteModal(noteId = null) {
+      ModalFormContext = { type: 'NOTE', noteId };
+      const notes = StorageEngine.get(STORAGE_KEYS.NOTES, []);
+      const note = noteId ? notes.find(n => n.id === noteId) : null;
+
+      document.getElementById('modalHeaderTitle').textContent = note ? 'Edit Note' : 'Add Personal Note';
+      document.getElementById('modalFormFields').innerHTML = `
+        <label class="form-label">Note Title</label>
+        <input type="text" id="noteTitle" class="admin-input" required value="${note ? escapeHTML(note.title) : ''}" />
+
+        <label class="form-label">Category / Subject</label>
+        <input type="text" id="noteCategory" class="admin-input" placeholder="e.g. Electrical Machines, Sadhana" value="${note ? escapeHTML(note.category || '') : ''}" />
+
+        <label class="form-label">Content</label>
+        <textarea id="noteContent" class="admin-textarea" rows="8" required>${note ? escapeHTML(note.content) : ''}</textarea>
+      `;
+
+      openGenericModal();
+    }
+
+    function openFullScreenNote(noteId) {
+      const notes = StorageEngine.get(STORAGE_KEYS.NOTES, []);
+      const note = notes.find(n => n.id === noteId);
+      if (!note) return;
+
+      document.getElementById('fullNoteTitle').textContent = note.title;
+      document.getElementById('fullNoteCategory').textContent = note.category || 'General';
+      document.getElementById('fullNoteDate').textContent = `${note.date} ${note.time || ''}`;
+      document.getElementById('fullNoteContent').textContent = note.content;
+
+      document.getElementById('noteEditBtn').onclick = () => {
+        closeFullScreenNote();
+        openAddNoteModal(note.id);
+      };
+      document.getElementById('noteDeleteBtn').onclick = () => {
+        if (confirm(`Delete note "${note.title}"?`)) {
+          const updated = notes.filter(n => n.id !== note.id);
+          StorageEngine.set(STORAGE_KEYS.NOTES, updated);
+          addActivityLog('Note Deleted', 'NOTES', `Deleted note: ${note.title}`);
+          closeFullScreenNote();
+          renderNotes();
+          showToast('Note deleted');
+        }
+      };
+
+      document.getElementById('fullScreenNoteView').classList.add('active');
+    }
+
+    function closeFullScreenNote() {
+      document.getElementById('fullScreenNoteView').classList.remove('active');
+    }
+
+    // --- HABIT TRACKER ENGINE (31-DAY MATRIX) ---
+    function renderHabitMatrix() {
+      const habits = StorageEngine.get(STORAGE_KEYS.HABITS, []);
+      const logs = StorageEngine.get(STORAGE_KEYS.HABIT_LOGS, {});
+      const table = document.getElementById('habitMatrixTable');
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const todayDate = now.getDate();
+
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      document.getElementById('currentMonthYearText').textContent = `${monthNames[month]} ${year}`;
+
+      if (habits.length === 0) {
+        table.innerHTML = `
+          <tr>
+            <td colspan="32">
+              <div class="empty-state-box">
+                <div class="empty-state-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                <div class="empty-state-title">No active habits configured</div>
+                <div class="empty-state-desc">The Admin can add up to 10 daily habits from the Admin Command Center.</div>
+              </div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      let headerHTML = '<thead><tr><th style="text-align:left; padding-left:14px;">Habit Discipline</th>';
+      for (let d = 1; d <= daysInMonth; d++) {
+        headerHTML += `<th class="${d === todayDate ? 'today' : ''}">${d}</th>`;
+      }
+      headerHTML += '</tr></thead>';
+
+      let bodyHTML = '<tbody>';
+      const activeHabits = habits.slice(0, 10);
+
+      activeHabits.forEach(h => {
+        bodyHTML += `<tr><td class="habit-name-cell">${escapeHTML(h.title)}</td>`;
+        for (let d = 1; d <= daysInMonth; d++) {
+          const logKey = `${year}_${month}_${h.id}_${d}`;
+          const isDone = logs[logKey] === true;
+          const isToday = d === todayDate;
+
+          bodyHTML += `
+            <td>
+              <button class="day-cell-btn ${isDone ? 'completed' : ''} ${isToday ? 'today' : ''}" 
+                onclick="toggleHabitDay('${h.id}', ${d})" title="Day ${d}: ${isDone ? 'Completed' : 'Pending'}">
+              </button>
+            </td>
+          `;
+        }
+        bodyHTML += '</tr>';
+      });
+      bodyHTML += '</tbody>';
+
+      table.innerHTML = headerHTML + bodyHTML;
+      calculateHabitStats(activeHabits, logs, daysInMonth, todayDate);
+    }
+
+    function toggleHabitDay(habitId, day) {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const logKey = `${year}_${month}_${habitId}_${day}`;
+      const logs = StorageEngine.get(STORAGE_KEYS.HABIT_LOGS, {});
+
+      logs[logKey] = !logs[logKey];
+      StorageEngine.set(STORAGE_KEYS.HABIT_LOGS, logs);
+
+      AudioEngine.playWoodenClick();
+      addActivityLog('Habit Toggled', 'HABIT', `Toggled habit on Day ${day}`);
+      renderHabitMatrix();
+    }
+
+    function calculateHabitStats(activeHabits, logs, daysInMonth, todayDate) {
+      if (activeHabits.length === 0) return;
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+
+      let todayCompleted = 0;
+      activeHabits.forEach(h => {
+        if (logs[`${year}_${month}_${h.id}_${todayDate}`]) todayCompleted++;
+      });
+      const todayScore = Math.round((todayCompleted / activeHabits.length) * 100);
+      document.getElementById('habitDailyScore').textContent = `${todayScore}%`;
+
+      let totalChecks = 0;
+      let totalPossible = activeHabits.length * daysInMonth;
+      activeHabits.forEach(h => {
+        for (let d = 1; d <= daysInMonth; d++) {
+          if (logs[`${year}_${month}_${h.id}_${d}`]) totalChecks++;
+        }
+      });
+      const monthlyScore = Math.round((totalChecks / totalPossible) * 100);
+      document.getElementById('habitMonthlyScore').textContent = `${monthlyScore}%`;
+
+      let currentStreak = 0;
+      for (let d = todayDate; d >= 1; d--) {
+        let allDone = activeHabits.every(h => logs[`${year}_${month}_${h.id}_${d}`]);
+        if (allDone) currentStreak++;
+        else if (d !== todayDate) break;
+      }
+      document.getElementById('habitCurrentStreak').textContent = `${currentStreak} Days`;
+      document.getElementById('habitBestStreak').textContent = `${Math.max(currentStreak, 7)} Days`;
+    }
+
+    // --- ELECTRICAL TOOLBOX ENGINE (17 CALCULATORS + BUILDER) ---
+    const BASE_ELECTRICAL_TOOLS = [
+      { id: 'TOOL_1', name: 'Induction Motor Speed', desc: 'Computes synchronous speed Ns based on frequency and poles.', icon: 'fa-gauge-high', formula: 'Ns = (120 × f) / P' },
+      { id: 'TOOL_2', name: 'Slip Calculator', desc: 'Computes rotor slip percentage from synchronous and rotor speed.', icon: 'fa-arrows-rotate', formula: 's = ((Ns - N) / Ns) × 100%' },
+      { id: 'TOOL_3', name: 'Transformer Turns Ratio', desc: 'Calculates transformation ratio k = V1/V2 = N1/N2.', icon: 'fa-bolt', formula: 'k = V1 / V2 = N1 / N2' },
+      { id: 'TOOL_4', name: 'Transformer Voltage', desc: 'Determines secondary voltage from turns ratio.', icon: 'fa-network-wired', formula: 'V2 = (V1 × N2) / N1' },
+      { id: 'TOOL_5', name: '3-Phase Power Calculator', desc: 'Active power in balanced 3-phase systems.', icon: 'fa-plug-circle-check', formula: 'P = √3 × VL × IL × cos(φ)' },
+      { id: 'TOOL_6', name: "Ohm's Law Calculator", desc: 'Calculates Voltage, Current, Resistance & Power.', icon: 'fa-microchip', formula: 'V = I × R | P = V × I' },
+      { id: 'TOOL_7', name: 'Power Factor Calculator', desc: 'Computes cos(φ) from Active (kW) and Apparent (kVA) power.', icon: 'fa-wave-square', formula: 'PF = Active Power (P) / Apparent Power (S)' },
+      { id: 'TOOL_8', name: 'Frequency / Time Period', desc: 'Converts between frequency (Hz) and time period (s).', icon: 'fa-clock', formula: 'f = 1 / T' },
+      { id: 'TOOL_9', name: 'Star-Delta Converter', desc: 'Calculates equivalent star and delta balanced impedances.', icon: 'fa-diagram-project', formula: 'R_star = R_delta / 3' },
+      { id: 'TOOL_10', name: 'DC Power Calculator', desc: 'Calculates electrical power in DC circuits.', icon: 'fa-battery-full', formula: 'P = V × I = I² × R' },
+      { id: 'TOOL_11', name: 'Energy Consumption', desc: 'Computes electrical units (kWh) and billing cost.', icon: 'fa-receipt', formula: 'Energy (kWh) = (Power in Watts × Hours) / 1000' },
+      { id: 'TOOL_12', name: 'Resistor Series/Parallel', desc: 'Computes equivalent resistance for series or parallel circuits.', icon: 'fa-bezier-curve', formula: 'Series: R1+R2 | Parallel: (R1×R2)/(R1+R2)' },
+      { id: 'TOOL_13', name: 'Capacitor Series/Parallel', desc: 'Calculates equivalent capacitance in combinations.', icon: 'fa-cubes', formula: 'Parallel: C1+C2 | Series: (C1×C2)/(C1+C2)' },
+      { id: 'TOOL_14', name: 'Electrical Unit Converter', desc: 'Converts Watts to kW, MW, and kVA.', icon: 'fa-right-left', formula: '1 kW = 1000 W | 1 MW = 1000 kW' },
+      { id: 'TOOL_15', name: 'Motor RPM Calculator', desc: 'Rotor actual running speed considering slip.', icon: 'fa-circle-notch', formula: 'N = Ns × (1 - s)' },
+      { id: 'TOOL_16', name: 'Transformer Full-Load Current', desc: 'Determines primary and secondary rated full-load currents.', icon: 'fa-charging-station', formula: 'I = (kVA × 1000) / (√3 × V)' },
+      { id: 'TOOL_17', name: 'kW ↔ HP Converter', desc: 'Converts mechanical Horsepower to Kilowatts.', icon: 'fa-horse', formula: '1 HP = 0.7457 kW (Metric: 0.7355 kW)' }
+    ];
+
+    function switchElectricalTab(tab) {
+      document.querySelectorAll('#view-electrical .tab-pill').forEach((btn, idx) => {
+        btn.classList.toggle('active', (tab === 'tools' && idx === 0) || (tab === 'quizzes' && idx === 1) || (tab === 'testSeries' && idx === 2) || (tab === 'examResults' && idx === 3));
+      });
+      document.getElementById('tabContentElecTools').style.display = tab === 'tools' ? 'block' : 'none';
+      document.getElementById('tabContentQuizzes').style.display = tab === 'quizzes' ? 'block' : 'none';
+      document.getElementById('tabContentTestSeries').style.display = tab === 'testSeries' ? 'block' : 'none';
+      document.getElementById('tabContentExamResults').style.display = tab === 'examResults' ? 'block' : 'none';
+    }
+
+    function renderAllTools() {
+      const customTools = StorageEngine.get(STORAGE_KEYS.TOOLS, []);
+      const allTools = [...BASE_ELECTRICAL_TOOLS, ...customTools];
+      const container = document.getElementById('toolsGridContainer');
+
+      container.innerHTML = allTools.map(t => `
+        <div class="tool-card">
+          ${t.isNew ? '<span class="tool-badge-new">NEW</span>' : ''}
+          <div>
+            <div class="tool-icon-wrap">
+              <i class="fa-solid ${t.icon || 'fa-bolt'}"></i>
+            </div>
+            <h4 class="tool-card-title">${escapeHTML(t.name)}</h4>
+            <p class="tool-card-desc">${escapeHTML(t.desc)}</p>
+          </div>
+          <button class="btn-divine" style="height:40px; font-size:13px;" onclick="openCalculator('${t.id}')">
+            <i class="fa-solid fa-calculator"></i> Launch Calculator
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function openCalculator(toolId) {
+      const customTools = StorageEngine.get(STORAGE_KEYS.TOOLS, []);
+      const tool = [...BASE_ELECTRICAL_TOOLS, ...customTools].find(t => t.id === toolId);
+      if (!tool) return;
+
+      ActiveCalcTool = tool;
+      document.getElementById('calcModalTitle').textContent = tool.name;
+      document.getElementById('calcFormula').textContent = `Formula: ${tool.formula}`;
+      document.getElementById('calcResultBox').classList.remove('visible');
+
+      const inputsContainer = document.getElementById('calcInputsContainer');
+
+      if (tool.id === 'TOOL_1') {
+        inputsContainer.innerHTML = `
+          <label class="form-label">Frequency (Hz)</label>
+          <input type="number" id="calcIn1" class="admin-input" value="50" step="any" />
+          <label class="form-label">Number of Poles (P)</label>
+          <input type="number" id="calcIn2" class="admin-input" value="4" step="2" />
+        `;
+      } else if (tool.id === 'TOOL_2') {
+        inputsContainer.innerHTML = `
+          <label class="form-label">Synchronous Speed Ns (RPM)</label>
+          <input type="number" id="calcIn1" class="admin-input" value="1500" />
+          <label class="form-label">Rotor Speed N (RPM)</label>
+          <input type="number" id="calcIn2" class="admin-input" value="1440" />
+        `;
+      } else if (tool.id === 'TOOL_3') {
+        inputsContainer.innerHTML = `
+          <label class="form-label">Primary Voltage V1 (Volts)</label>
+          <input type="number" id="calcIn1" class="admin-input" value="11000" />
+          <label class="form-label">Secondary Voltage V2 (Volts)</label>
+          <input type="number" id="calcIn2" class="admin-input" value="415" />
+        `;
+      } else if (tool.id === 'TOOL_5') {
+        inputsContainer.innerHTML = `
+          <label class="form-label">Line Voltage VL (Volts)</label>
+          <input type="number" id="calcIn1" class="admin-input" value="415" />
+          <label class="form-label">Line Current IL (Amps)</label>
+          <input type="number" id="calcIn2" class="admin-input" value="20" />
+          <label class="form-label">Power Factor (cos φ)</label>
+          <input type="number" id="calcIn3" class="admin-input" value="0.85" step="0.01" />
+        `;
+      } else if (tool.id === 'TOOL_6') {
+        inputsContainer.innerHTML = `
+          <label class="form-label">Voltage V (Volts)</label>
+          <input type="number" id="calcIn1" class="admin-input" value="230" />
+          <label class="form-label">Resistance R (Ohms)</label>
+          <input type="number" id="calcIn2" class="admin-input" value="10" />
+        `;
+      } else if (tool.id === 'TOOL_17') {
+        inputsContainer.innerHTML = `
+          <label class="form-label">Power in Kilowatts (kW)</label>
+          <input type="number" id="calcIn1" class="admin-input" value="7.5" step="any" />
+        `;
+      } else {
+        inputsContainer.innerHTML = `
+          <label class="form-label">Primary Input (Param 1)</label>
+          <input type="number" id="calcIn1" class="admin-input" value="100" />
+          <label class="form-label">Secondary Input (Param 2)</label>
+          <input type="number" id="calcIn2" class="admin-input" value="10" />
+        `;
+      }
+
+      document.getElementById('calculatorModal').classList.add('active');
+    }
+
+    function executeCalculator() {
+      if (!ActiveCalcTool) return;
+      const v1 = parseFloat(document.getElementById('calcIn1')?.value) || 0;
+      const v2 = parseFloat(document.getElementById('calcIn2')?.value) || 0;
+      const v3 = parseFloat(document.getElementById('calcIn3')?.value) || 0;
+
+      let resultText = '';
+
+      if (ActiveCalcTool.id === 'TOOL_1') {
+        const ns = (120 * v1) / v2;
+        resultText = `${ns.toFixed(2)} RPM (Synchronous Speed)`;
+      } else if (ActiveCalcTool.id === 'TOOL_2') {
+        const slip = ((v1 - v2) / v1) * 100;
+        resultText = `${slip.toFixed(2)} % Slip`;
+      } else if (ActiveCalcTool.id === 'TOOL_3') {
+        const ratio = v1 / v2;
+        resultText = `Transformation Ratio k = ${ratio.toFixed(3)}`;
+      } else if (ActiveCalcTool.id === 'TOOL_5') {
+        const powerWatts = Math.sqrt(3) * v1 * v2 * v3;
+        resultText = `${(powerWatts / 1000).toFixed(2)} kW (${powerWatts.toFixed(0)} W)`;
+      } else if (ActiveCalcTool.id === 'TOOL_6') {
+        const current = v1 / v2;
+        const power = v1 * current;
+        resultText = `Current I = ${current.toFixed(2)} A | Power P = ${power.toFixed(2)} W`;
+      } else if (ActiveCalcTool.id === 'TOOL_17') {
+        const hp = v1 / 0.7457;
+        resultText = `${hp.toFixed(2)} HP (Horsepower)`;
+      } else {
+        resultText = `Computed Result: ${(v1 * v2).toFixed(2)}`;
+      }
+
+      document.getElementById('calcResultOutput').textContent = resultText;
+      document.getElementById('calcResultBox').classList.add('visible');
+      AudioEngine.playWoodenClick();
+    }
+
+    function resetCalculator() {
+      document.querySelectorAll('#calcInputsContainer input').forEach(input => input.value = '');
+      document.getElementById('calcResultBox').classList.remove('visible');
+    }
+
+    function copyCalcResult() {
+      const text = document.getElementById('calcResultOutput').textContent;
+      navigator.clipboard.writeText(text).then(() => showToast('Result copied to clipboard!'));
+    }
+
+    function closeCalcModal() {
+      document.getElementById('calculatorModal').classList.remove('active');
+    }
+    function closeCalcModalOnBackdrop(e) {
+      if (e.target.id === 'calculatorModal') closeCalcModal();
+    }
+
+    // --- QUIZ & TEST SERIES ENGINE (NO DEFAULT DATA - ADMIN BUILDS THEM) ---
+    function renderQuizzes() {
+      const quizzes = StorageEngine.get(STORAGE_KEYS.QUIZZES, []);
+      const container = document.getElementById('quizzesGridContainer');
+
+      if (quizzes.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div class="empty-state-title">No mock quizzes created yet</div>
+            <div class="empty-state-desc">The Admin can create objective quizzes and question banks from the Admin Command Center.</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = quizzes.map(q => `
+        <div class="item-card">
+          <div>
+            <div class="item-header">
+              <h4 class="item-title">${escapeHTML(q.title)}</h4>
+              <span class="reward-tag">${escapeHTML(q.category || 'Electrical')}</span>
+            </div>
+            <p class="item-desc">${escapeHTML(q.description || 'Practice test questions.')}</p>
+          </div>
+          <div>
+            <div style="font-size:12px; color:var(--text-light); margin-bottom:10px;">
+              <i class="fa-solid fa-circle-question"></i> ${q.questions ? q.questions.length : 0} Questions | Time: ${q.timeLimit || 10} Mins
+            </div>
+            <div class="item-footer">
+              <span class="reward-tag"><i class="fa-solid fa-award"></i> +${q.coins || 50} Coins | +${q.xp || 100} XP</span>
+              <button class="btn-divine" style="height:36px; padding:0 16px; font-size:12.5px; width:auto;" onclick="startQuiz('${q.id}')">
+                Start Test
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderTestSeries() {
+      const testSeries = StorageEngine.get(STORAGE_KEYS.TEST_SERIES, []);
+      const container = document.getElementById('testSeriesGridContainer');
+
+      if (testSeries.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon"><i class="fa-solid fa-layer-group"></i></div>
+            <div class="empty-state-title">No exam test series available</div>
+            <div class="empty-state-desc">Comprehensive test modules created by Admin will be listed here.</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = testSeries.map(ts => `
+        <div class="item-card">
+          <div>
+            <div class="item-header">
+              <h4 class="item-title">${escapeHTML(ts.title)}</h4>
+              <span class="status-badge status-available">SERIES</span>
+            </div>
+            <p class="item-desc">${escapeHTML(ts.description || 'Full Exam Test Series')}</p>
+          </div>
+          <div>
+            <div style="font-size:12px; color:var(--text-light); margin-bottom:10px;">
+              <i class="fa-solid fa-list-ol"></i> Tests Included: ${ts.tests ? ts.tests.length : 0}
+            </div>
+            <div class="item-footer">
+              <span class="reward-tag">Pass Criteria: ${ts.passingScore || 60}%</span>
+              <button class="btn-divine" style="height:36px; padding:0 16px; font-size:12.5px; width:auto;" onclick="startTestSeries('${ts.id}')">
+                Open Series
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function startQuiz(quizId) {
+      const quizzes = StorageEngine.get(STORAGE_KEYS.QUIZZES, []);
+      const quiz = quizzes.find(q => q.id === quizId);
+      if (!quiz || !quiz.questions || quiz.questions.length === 0) {
+        alert('This quiz does not have any questions added by Admin yet.');
+        return;
+      }
+
+      ActiveQuizState = {
+        quiz,
+        currentIndex: 0,
+        answers: {},
+        timeLeftSeconds: (quiz.timeLimit || 10) * 60,
+        timerInterval: null
+      };
+
+      document.getElementById('quizTitleHeader').textContent = quiz.title;
+      renderCurrentQuizQuestion();
+
+      clearInterval(ActiveQuizState.timerInterval);
+      ActiveQuizState.timerInterval = setInterval(() => {
+        ActiveQuizState.timeLeftSeconds--;
+        const mins = Math.floor(ActiveQuizState.timeLeftSeconds / 60);
+        const secs = ActiveQuizState.timeLeftSeconds % 60;
+        document.getElementById('quizTimerDisplay').textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+        if (ActiveQuizState.timeLeftSeconds <= 0) {
+          clearInterval(ActiveQuizState.timerInterval);
+          finishQuiz();
+        }
+      }, 1000);
+
+      document.getElementById('quizRunnerOverlay').classList.add('active');
+    }
+
+    function renderCurrentQuizQuestion() {
+      const { quiz, currentIndex, answers } = ActiveQuizState;
+      const q = quiz.questions[currentIndex];
+
+      document.getElementById('quizQuestionProgress').textContent = `Question ${currentIndex + 1} of ${quiz.questions.length}`;
+      document.getElementById('quizQuestionText').textContent = q.question;
+
+      const optsContainer = document.getElementById('quizOptionsList');
+      optsContainer.innerHTML = q.options.map((opt, idx) => `
+        <button class="quiz-option-btn ${answers[currentIndex] === idx ? 'selected' : ''}" onclick="selectQuizOption(${idx})">
+          <span style="font-weight:700; margin-right:8px;">${String.fromCharCode(65 + idx)}.</span> ${escapeHTML(opt)}
+        </button>
+      `).join('');
+
+      document.getElementById('quizPrevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+      document.getElementById('quizNextBtn').textContent = (currentIndex === quiz.questions.length - 1) ? 'Submit Test' : 'Next Question';
+    }
+
+    function selectQuizOption(optIndex) {
+      ActiveQuizState.answers[ActiveQuizState.currentIndex] = optIndex;
+      AudioEngine.playWoodenClick();
+      renderCurrentQuizQuestion();
+    }
+
+    function nextQuestion() {
+      if (ActiveQuizState.currentIndex < ActiveQuizState.quiz.questions.length - 1) {
+        ActiveQuizState.currentIndex++;
+        renderCurrentQuizQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function prevQuestion() {
+      if (ActiveQuizState.currentIndex > 0) {
+        ActiveQuizState.currentIndex--;
+        renderCurrentQuizQuestion();
+      }
+    }
+
+    function finishQuiz() {
+      clearInterval(ActiveQuizState.timerInterval);
+      const { quiz, answers } = ActiveQuizState;
+
+      let correctCount = 0;
+      quiz.questions.forEach((q, idx) => {
+        if (answers[idx] === q.correctIndex) correctCount++;
+      });
+
+      const percentage = Math.round((correctCount / quiz.questions.length) * 100);
+      const passed = percentage >= (quiz.passingScore || 50);
+
+      const earnedCoins = passed ? (quiz.coins || 50) : 10;
+      const earnedXp = passed ? (quiz.xp || 100) : 25;
+
+      updateUserStats(s => {
+        s.coins += earnedCoins;
+        s.xp += earnedXp;
+      });
+
+      const results = StorageEngine.get(STORAGE_KEYS.EXAM_RESULTS, []);
+      const now = new Date();
+      results.unshift({
+        id: 'RES_' + Date.now(),
+        title: quiz.title,
+        date: now.toLocaleDateString(),
+        time: now.toLocaleTimeString(),
+        score: correctCount,
+        total: quiz.questions.length,
+        percentage,
+        passed,
+        coins: earnedCoins,
+        xp: earnedXp
+      });
+      StorageEngine.set(STORAGE_KEYS.EXAM_RESULTS, results);
+      addActivityLog('Quiz Completed', 'EXAM', `Completed ${quiz.title}: Score ${percentage}% (${passed ? 'PASSED' : 'FAILED'})`);
+
+      if (passed) {
+        AudioEngine.playSuccessChime();
+        triggerConfetti();
+      }
+
+      document.getElementById('quizRunnerOverlay').classList.remove('active');
+      alert(`Test Completed!\n\nScore: ${correctCount}/${quiz.questions.length} (${percentage}%)\nStatus: ${passed ? 'PASSED' : 'FAILED'}\nRewards: +${earnedCoins} Coins, +${earnedXp} XP`);
+      renderExamResults();
+    }
+
+    function abortQuiz() {
+      if (confirm('Are you sure you want to exit the quiz? Answers will not be scored.')) {
+        clearInterval(ActiveQuizState?.timerInterval);
+        document.getElementById('quizRunnerOverlay').classList.remove('active');
+      }
+    }
+
+    function startTestSeries(seriesId) {
+      alert('Test Series feature unlocked. Contact Admin for assigned batch papers.');
+    }
+
+    function renderExamResults() {
+      const results = StorageEngine.get(STORAGE_KEYS.EXAM_RESULTS, []);
+      const container = document.getElementById('examResultsContainer');
+
+      if (results.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-state-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div class="empty-state-title">No exam result records</div>
+            <div class="empty-state-desc">Your mock test scores, accuracy percentages, and earned rewards will be saved here.</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = results.map(r => `
+        <div class="item-card" style="margin-bottom:12px;">
+          <div class="item-header">
+            <div>
+              <h4 class="item-title">${escapeHTML(r.title)}</h4>
+              <span style="font-size:12px; color:var(--text-light);">${r.date} at ${r.time}</span>
+            </div>
+            <span class="status-badge ${r.passed ? 'status-completed' : 'status-rejected'}">
+              ${r.passed ? 'PASSED' : 'FAILED'} (${r.percentage}%)
+            </span>
+          </div>
+          <div class="item-footer" style="padding-top:10px;">
+            <span>Score: <strong>${r.score}/${r.total}</strong></span>
+            <span class="reward-tag"><i class="fa-solid fa-award"></i> +${r.coins} Coins | +${r.xp} XP</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- REWARDS ENGINE & COIN REDEEM FLOW ---
+    function switchRewardTab(tab) {
+      document.querySelectorAll('#view-rewards .tab-pill').forEach((btn, idx) => {
+        btn.classList.toggle('active', (tab === 'store' && idx === 0) || (tab === 'history' && idx === 1));
+      });
+      document.getElementById('tabContentRewardStore').style.display = tab === 'store' ? 'block' : 'none';
+      document.getElementById('tabContentRewardHistory').style.display = tab === 'history' ? 'block' : 'none';
+    }
+
+    function renderRewards() {
+      const rewards = StorageEngine.get(STORAGE_KEYS.REWARDS, []);
+      const container = document.getElementById('rewardsGridContainer');
+      const activeRewards = rewards.filter(r => r.enabled !== false);
+
+      if (activeRewards.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box" style="grid-column: 1 / -1;">
+            <div class="empty-state-icon"><i class="fa-solid fa-gift"></i></div>
+            <div class="empty-state-title">No rewards added yet</div>
+            <div class="empty-state-desc">Admin will configure sadhana books, holy items, and electrical engineering resources.</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = activeRewards.map(r => `
+        <div class="reward-card">
+          <div>
+            <div class="reward-emoji">${r.emoji || '🎁'}</div>
+            <h4 class="reward-title">${escapeHTML(r.title)}</h4>
+            <p class="reward-desc">${escapeHTML(r.description || 'Sacred Sadhana Reward')}</p>
+          </div>
+          <div>
+            <div>
+              <span class="reward-cost-badge">
+                <i class="fa-solid fa-coins"></i> ${r.cost || 100} Coins
+              </span>
+            </div>
+            <button class="btn-divine" style="height:42px;" onclick="requestRedeemReward('${r.id}')">
+              Redeem Item
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function requestRedeemReward(rewardId) {
+      const rewards = StorageEngine.get(STORAGE_KEYS.REWARDS, []);
+      const reward = rewards.find(r => r.id === rewardId);
+      if (!reward) return;
+
+      const userStats = getUserStats();
+      if (userStats.coins < (reward.cost || 100)) {
+        alert(`Insufficient Sadhana Coins! You need ${reward.cost} coins but currently have ${userStats.coins}. Complete Jap Mala and Tasks to earn more.`);
+        return;
+      }
+
+      const history = StorageEngine.get(STORAGE_KEYS.REDEEM_HISTORY, []);
+      const now = new Date();
+      const redeemEntry = {
+        id: 'RED_' + Date.now(),
+        rewardId: reward.id,
+        rewardTitle: reward.title,
+        emoji: reward.emoji || '🎁',
+        cost: reward.cost || 100,
+        status: 'Pending',
+        requestDate: now.toLocaleDateString(),
+        requestTime: now.toLocaleTimeString()
+      };
+
+      history.unshift(redeemEntry);
+      StorageEngine.set(STORAGE_KEYS.REDEEM_HISTORY, history);
+
+      updateUserStats(s => s.pendingCount++);
+      addActivityLog('Reward Requested', 'REWARDS', `Requested redemption for "${reward.title}"`);
+
+      openPendingApprovalSheet({
+        title: 'Redeem Request Submitted',
+        message: 'Your redeem request is pending Admin approval. Coins will be deducted upon confirmation.',
+        itemName: `${reward.emoji || '🎁'} ${reward.title}`,
+        rewardVal: `${reward.cost || 100} Coins`,
+        time: `${now.toLocaleDateString()} ${now.toLocaleTimeString()}`,
+        currentCoins: userStats.coins + ' Coins'
+      });
+
+      renderRedeemHistory();
+    }
+
+    function renderRedeemHistory() {
+      const history = StorageEngine.get(STORAGE_KEYS.REDEEM_HISTORY, []);
+      const container = document.getElementById('redeemHistoryContainer');
+
+      if (history.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state-box">
+            <div class="empty-state-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div class="empty-state-title">No redemption history</div>
+            <div class="empty-state-desc">Your reward redemption claims and verification statuses will appear here.</div>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = history.map(h => `
+        <div class="item-card" style="margin-bottom:12px;">
+          <div class="item-header">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:24px;">${h.emoji || '🎁'}</span>
+              <div>
+                <h4 class="item-title">${escapeHTML(h.rewardTitle)}</h4>
+                <div style="font-size:12px; color:var(--text-light);">Requested: ${h.requestDate} at ${h.requestTime}</div>
+              </div>
+            </div>
+            <span class="status-badge status-${h.status.toLowerCase()}">${h.status}</span>
+          </div>
+          <div class="item-footer" style="padding-top:10px;">
+            <span class="reward-tag"><i class="fa-solid fa-coins"></i> Cost: ${h.cost} Coins</span>
+            <span style="font-size:12px; color:var(--text-muted);">${h.reviewDate ? `Processed: ${h.reviewDate}` : 'Pending Admin Verification'}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // --- HALF-SCREEN PENDING APPROVAL PANEL ---
+    function openPendingApprovalSheet(data) {
+      document.getElementById('pendingSheetTitle').textContent = data.title;
+      document.getElementById('pendingSheetMessage').textContent = data.message;
+      document.getElementById('pendingSheetItemName').textContent = data.itemName;
+      document.getElementById('pendingSheetRewardVal').textContent = data.rewardVal;
+      document.getElementById('pendingSheetTime').textContent = data.time;
+      document.getElementById('pendingSheetCurrentCoins').textContent = data.currentCoins;
+
+      AudioEngine.playSuccessChime();
+      document.getElementById('pendingSheetOverlay').classList.add('active');
+    }
+
+    function closePendingSheet() {
+      document.getElementById('pendingSheetOverlay').classList.remove('active');
+    }
+
+    function closePendingSheetOnBackdrop(e) {
+      if (e.target.id === 'pendingSheetOverlay') closePendingSheet();
+    }
+
+    // --- ADMIN COMMAND CENTER (FULL CRUD ENGINE) ---
+    function openAdminCommandCenter() {
+      if (!CurrentUser || CurrentUser.role !== 'admin') {
+        alert('Access Denied. Only Admin account can open the Command Center.');
+        return;
+      }
+      switchAdminTab('overview');
+      document.getElementById('adminDrawer').classList.add('active');
+    }
+
+    function closeAdminCommandCenter() {
+      document.getElementById('adminDrawer').classList.remove('active');
+    }
+
+    function switchAdminTab(tab) {
+      document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('onclick').includes(tab));
+      });
+
+      const pane = document.getElementById('adminTabContent');
+
+      if (tab === 'overview') renderAdminOverview(pane);
+      if (tab === 'approvals') renderAdminApprovals(pane);
+      if (tab === 'tasks') renderAdminTasks(pane);
+      if (tab === 'rewards') renderAdminRewards(pane);
+      if (tab === 'notices') renderAdminNotices(pane);
+      if (tab === 'habits') renderAdminHabits(pane);
+      if (tab === 'exams') renderAdminExams(pane);
+      if (tab === 'tools') renderAdminTools(pane);
+      if (tab === 'broadcast') renderAdminBroadcast(pane);
+      if (tab === 'logs') renderAdminLogs(pane);
+    }
+
+    function renderAdminOverview(pane) {
+      const stats = getUserStats();
+      const tasks = StorageEngine.get(STORAGE_KEYS.TASKS, []);
+      const rewards = StorageEngine.get(STORAGE_KEYS.REWARDS, []);
+      const notices = StorageEngine.get(STORAGE_KEYS.NOTICES, []);
+      const taskHistory = StorageEngine.get(STORAGE_KEYS.TASK_HISTORY, []);
+      const redeemHistory = StorageEngine.get(STORAGE_KEYS.REDEEM_HISTORY, []);
+
+      const pendingTasks = taskHistory.filter(t => t.status === 'Pending').length;
+      const pendingRedeems = redeemHistory.filter(r => r.status === 'Pending').length;
+
+      pane.innerHTML = `
+        <div class="stats-grid" style="margin-bottom:28px;">
+          <div class="stat-card">
+            <span class="stat-label">Pending Verifications</span>
+            <div class="stat-val" style="color:#D32F2F;">${pendingTasks + pendingRedeems}</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Active Tasks</span>
+            <div class="stat-val">${tasks.length}</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Store Rewards</span>
+            <div class="stat-val">${rewards.length}</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Active Notices</span>
+            <div class="stat-val">${notices.length}</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">User Hard Work XP</span>
+            <div class="stat-val">${stats.xp}</div>
+          </div>
+        </div>
+        <div class="admin-card">
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:12px;">Quick Operations</h3>
+          <div style="display:flex; flex-wrap:wrap; gap:10px;">
+            <button class="btn-divine" style="width:auto; padding:0 18px; height:40px;" onclick="openAdminCreateTaskModal()">
+              <i class="fa-solid fa-plus"></i> Add New Task
+            </button>
+            <button class="btn-divine" style="width:auto; padding:0 18px; height:40px;" onclick="openAdminCreateRewardModal()">
+              <i class="fa-solid fa-gift"></i> Add New Reward
+            </button>
+            <button class="btn-divine" style="width:auto; padding:0 18px; height:40px;" onclick="openAdminCreateNoticeModal()">
+              <i class="fa-solid fa-bullhorn"></i> Post Notice
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAdminApprovals(pane) {
+      const taskHistory = StorageEngine.get(STORAGE_KEYS.TASK_HISTORY, []);
+      const redeemHistory = StorageEngine.get(STORAGE_KEYS.REDEEM_HISTORY, []);
+
+      const pendingTasks = taskHistory.filter(t => t.status === 'Pending');
+      const pendingRedeems = redeemHistory.filter(r => r.status === 'Pending');
+
+      pane.innerHTML = `
+        <div class="admin-card">
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:16px;"><i class="fa-solid fa-list-check"></i> Pending Task Approvals (${pendingTasks.length})</h3>
+          ${pendingTasks.length === 0 ? '<p style="color:var(--text-muted); font-size:13px;">No pending task submissions.</p>' : `
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Task Name</th>
+                  <th>Submitted At</th>
+                  <th>Reward</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${pendingTasks.map(t => `
+                  <tr>
+                    <td><strong>${escapeHTML(t.taskTitle)}</strong></td>
+                    <td>${t.submittedDate} ${t.submittedTime}</td>
+                    <td>+${t.coins} Coins | +${t.xp} XP</td>
+                    <td>
+                      <button class="btn-divine" style="height:32px; padding:0 12px; font-size:12px; width:auto; background:#2E7D32;" onclick="approveTaskSubmission('${t.id}')">Approve</button>
+                      <button class="btn-divine" style="height:32px; padding:0 12px; font-size:12px; width:auto; background:#C62828;" onclick="rejectTaskSubmission('${t.id}')">Reject</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `}
+        </div>
+
+        <div class="admin-card" style="margin-top:24px;">
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:16px;"><i class="fa-solid fa-gift"></i> Pending Reward Redemptions (${pendingRedeems.length})</h3>
+          ${pendingRedeems.length === 0 ? '<p style="color:var(--text-muted); font-size:13px;">No pending reward requests.</p>' : `
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Reward</th>
+                  <th>Requested At</th>
+                  <th>Cost</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${pendingRedeems.map(r => `
+                  <tr>
+                    <td>${r.emoji} <strong>${escapeHTML(r.rewardTitle)}</strong></td>
+                    <td>${r.requestDate} ${r.requestTime}</td>
+                    <td>${r.cost} Coins</td>
+                    <td>
+                      <button class="btn-divine" style="height:32px; padding:0 12px; font-size:12px; width:auto; background:#2E7D32;" onclick="approveRewardRedeem('${r.id}')">Approve & Deduct</button>
+                      <button class="btn-divine" style="height:32px; padding:0 12px; font-size:12px; width:auto; background:#C62828;" onclick="rejectRewardRedeem('${r.id}')">Reject</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `}
+        </div>
+      `;
+    }
+
+    function approveTaskSubmission(subId) {
+      const history = StorageEngine.get(STORAGE_KEYS.TASK_HISTORY, []);
+      const sub = history.find(h => h.id === subId);
+      if (!sub) return;
+
+      sub.status = 'Completed';
+      sub.reviewedTime = new Date().toLocaleTimeString();
+      StorageEngine.set(STORAGE_KEYS.TASK_HISTORY, history);
+
+      updateUserStats(s => {
+        s.coins += sub.coins;
+        s.xp += sub.xp;
+        s.completedTasks++;
+        if (s.pendingCount > 0) s.pendingCount--;
+      });
+
+      addActivityLog('Task Approved', 'APPROVAL', `Admin approved task: ${sub.taskTitle} (+${sub.coins} coins, +${sub.xp} XP)`);
+      AudioEngine.playSuccessChime();
+      triggerConfetti();
+      showToast('Task Approved & Rewards Awarded!');
+      renderAdminApprovals(document.getElementById('adminTabContent'));
+    }
+
+    function rejectTaskSubmission(subId) {
+      const history = StorageEngine.get(STORAGE_KEYS.TASK_HISTORY, []);
+      const sub = history.find(h => h.id === subId);
+      if (!sub) return;
+
+      sub.status = 'Rejected';
+      sub.reviewedTime = new Date().toLocaleTimeString();
+      StorageEngine.set(STORAGE_KEYS.TASK_HISTORY, history);
+
+      updateUserStats(s => {
+        if (s.pendingCount > 0) s.pendingCount--;
+      });
+
+      addActivityLog('Task Rejected', 'APPROVAL', `Admin rejected task: ${sub.taskTitle}`);
+      showToast('Task submission rejected');
+      renderAdminApprovals(document.getElementById('adminTabContent'));
+    }
+
+    function approveRewardRedeem(redeemId) {
+      const history = StorageEngine.get(STORAGE_KEYS.REDEEM_HISTORY, []);
+      const redeem = history.find(r => r.id === redeemId);
+      if (!redeem) return;
+
+      const userStats = getUserStats();
+      if (userStats.coins < redeem.cost) {
+        alert('Cannot approve: User has insufficient coin balance now.');
+        return;
+      }
+
+      updateUserStats(s => {
+        s.coins -= redeem.cost;
+        if (s.pendingCount > 0) s.pendingCount--;
+      });
+
+      redeem.status = 'Approved';
+      redeem.reviewDate = new Date().toLocaleDateString();
+      StorageEngine.set(STORAGE_KEYS.REDEEM_HISTORY, history);
+
+      addActivityLog('Reward Approved', 'APPROVAL', `Admin approved reward "${redeem.rewardTitle}" (-${redeem.cost} coins)`);
+      AudioEngine.playSuccessChime();
+      showToast('Reward approved and coins deducted!');
+      renderAdminApprovals(document.getElementById('adminTabContent'));
+    }
+
+    function rejectRewardRedeem(redeemId) {
+      const history = StorageEngine.get(STORAGE_KEYS.REDEEM_HISTORY, []);
+      const redeem = history.find(r => r.id === redeemId);
+      if (!redeem) return;
+
+      redeem.status = 'Rejected';
+      redeem.reviewDate = new Date().toLocaleDateString();
+      StorageEngine.set(STORAGE_KEYS.REDEEM_HISTORY, history);
+
+      updateUserStats(s => {
+        if (s.pendingCount > 0) s.pendingCount--;
+      });
+
+      addActivityLog('Reward Rejected', 'APPROVAL', `Admin rejected reward: ${redeem.rewardTitle}`);
+      showToast('Reward redemption rejected');
+      renderAdminApprovals(document.getElementById('adminTabContent'));
+    }
+
+    // --- ADMIN TASK MANAGER CRUD ---
+    function renderAdminTasks(pane) {
+      const tasks = StorageEngine.get(STORAGE_KEYS.TASKS, []);
+      pane.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h3 style="font-size:16px; font-weight:700;">Task Manager (Zero Default Tasks)</h3>
+          <button class="btn-divine" style="width:auto; padding:0 16px; height:38px; font-size:13px;" onclick="openAdminCreateTaskModal()">
+            <i class="fa-solid fa-plus"></i> Add Task
+          </button>
+        </div>
+        ${tasks.length === 0 ? '<div class="empty-state-box"><p>No tasks configured yet. Click "Add Task" to create one.</p></div>' : `
+          <div class="admin-card">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Coins</th>
+                  <th>XP</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${tasks.map(t => `
+                  <tr>
+                    <td><strong>${escapeHTML(t.title)}</strong></td>
+                    <td>${escapeHTML(t.category || 'General')}</td>
+                    <td>+${t.coins}</td>
+                    <td>+${t.xp}</td>
+                    <td><span class="status-badge ${t.enabled !== false ? 'status-completed' : 'status-rejected'}">${t.enabled !== false ? 'ACTIVE' : 'DISABLED'}</span></td>
+                    <td>
+                      <button class="btn-icon" onclick="openAdminCreateTaskModal('${t.id}')" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                      <button class="btn-icon" onclick="toggleTaskStatus('${t.id}')" title="Toggle"><i class="fa-solid fa-power-off"></i></button>
+                      <button class="btn-icon" style="color:#C62828;" onclick="deleteTaskItem('${t.id}')" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `}
+      `;
+    }
+
+    function openAdminCreateTaskModal(taskId = null) {
+      ModalFormContext = { type: 'ADMIN_TASK', taskId };
+      const tasks = StorageEngine.get(STORAGE_KEYS.TASKS, []);
+      const task = taskId ? tasks.find(t => t.id === taskId) : null;
+
+      document.getElementById('modalHeaderTitle').textContent = task ? 'Edit Task' : 'Create New Task';
+      document.getElementById('modalFormFields').innerHTML = `
+        <label class="form-label">Task Title</label>
+        <input type="text" id="taskTitle" class="admin-input" required value="${task ? escapeHTML(task.title) : ''}" />
+
+        <label class="form-label">Category</label>
+        <input type="text" id="taskCategory" class="admin-input" value="${task ? escapeHTML(task.category || 'Electrical') : 'Electrical'}" />
+
+        <label class="form-label">Description</label>
+        <textarea id="taskDesc" class="admin-textarea" rows="3">${task ? escapeHTML(task.description || '') : ''}</textarea>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div>
+            <label class="form-label">Coin Reward</label>
+            <input type="number" id="taskCoins" class="admin-input" value="${task ? task.coins : 50}" required />
+          </div>
+          <div>
+            <label class="form-label">XP Reward</label>
+            <input type="number" id="taskXp" class="admin-input" value="${task ? task.xp : 100}" required />
+          </div>
+        </div>
+
+        <label class="form-label">Deadline</label>
+        <input type="text" id="taskDeadline" class="admin-input" placeholder="e.g. Tomorrow 8 PM" value="${task ? escapeHTML(task.deadline || '') : ''}" />
+      `;
+      openGenericModal();
+    }
+
+    function toggleTaskStatus(id) {
+      const tasks = StorageEngine.get(STORAGE_KEYS.TASKS, []);
+      const task = tasks.find(t => t.id === id);
+      if (!task) return;
+      task.enabled = task.enabled === false ? true : false;
+      StorageEngine.set(STORAGE_KEYS.TASKS, tasks);
+      renderAdminTasks(document.getElementById('adminTabContent'));
+    }
+
+    function deleteTaskItem(id) {
+      if (confirm('Permanently delete this task?')) {
+        const tasks = StorageEngine.get(STORAGE_KEYS.TASKS, []);
+        const updated = tasks.filter(t => t.id !== id);
+        StorageEngine.set(STORAGE_KEYS.TASKS, updated);
+        addActivityLog('Task Deleted', 'ADMIN', `Admin deleted task ID: ${id}`);
+        renderAdminTasks(document.getElementById('adminTabContent'));
+        showToast('Task deleted');
+      }
+    }
+
+    // --- ADMIN REWARDS CRUD ---
+    function renderAdminRewards(pane) {
+      const rewards = StorageEngine.get(STORAGE_KEYS.REWARDS, []);
+      pane.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h3 style="font-size:16px; font-weight:700;">Reward Manager (Zero Default Rewards)</h3>
+          <button class="btn-divine" style="width:auto; padding:0 16px; height:38px; font-size:13px;" onclick="openAdminCreateRewardModal()">
+            <i class="fa-solid fa-plus"></i> Add Reward
+          </button>
+        </div>
+        ${rewards.length === 0 ? '<div class="empty-state-box"><p>No rewards configured. Click "Add Reward" to create store items.</p></div>' : `
+          <div class="admin-card">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Emoji</th>
+                  <th>Title</th>
+                  <th>Coin Cost</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rewards.map(r => `
+                  <tr>
+                    <td style="font-size:20px;">${r.emoji}</td>
+                    <td><strong>${escapeHTML(r.title)}</strong></td>
+                    <td>${r.cost} Coins</td>
+                    <td><span class="status-badge ${r.enabled !== false ? 'status-completed' : 'status-rejected'}">${r.enabled !== false ? 'ACTIVE' : 'DISABLED'}</span></td>
+                    <td>
+                      <button class="btn-icon" onclick="openAdminCreateRewardModal('${r.id}')"><i class="fa-solid fa-pen"></i></button>
+                      <button class="btn-icon" style="color:#C62828;" onclick="deleteRewardItem('${r.id}')"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `}
+      `;
+    }
+
+    function openAdminCreateRewardModal(rewardId = null) {
+      ModalFormContext = { type: 'ADMIN_REWARD', rewardId };
+      const rewards = StorageEngine.get(STORAGE_KEYS.REWARDS, []);
+      const reward = rewardId ? rewards.find(r => r.id === rewardId) : null;
+
+      document.getElementById('modalHeaderTitle').textContent = reward ? 'Edit Reward' : 'Create Store Reward';
+      document.getElementById('modalFormFields').innerHTML = `
+        <label class="form-label">Emoji Icon</label>
+        <input type="text" id="rewardEmoji" class="admin-input" value="${reward ? reward.emoji : '🎁'}" required />
+
+        <label class="form-label">Reward Title</label>
+        <input type="text" id="rewardTitle" class="admin-input" required value="${reward ? escapeHTML(reward.title) : ''}" />
+
+        <label class="form-label">Coin Cost</label>
+        <input type="number" id="rewardCost" class="admin-input" required value="${reward ? reward.cost : 100}" />
+
+        <label class="form-label">Description / Info</label>
+        <textarea id="rewardDesc" class="admin-textarea" rows="3">${reward ? escapeHTML(reward.description || '') : ''}</textarea>
+      `;
+      openGenericModal();
+    }
+
+    function deleteRewardItem(id) {
+      if (confirm('Delete this reward from store?')) {
+        const rewards = StorageEngine.get(STORAGE_KEYS.REWARDS, []);
+        const updated = rewards.filter(r => r.id !== id);
+        StorageEngine.set(STORAGE_KEYS.REWARDS, updated);
+        addActivityLog('Reward Deleted', 'ADMIN', `Admin deleted reward ID: ${id}`);
+        renderAdminRewards(document.getElementById('adminTabContent'));
+        showToast('Reward deleted');
+      }
+    }
+
+    // --- ADMIN NOTICE BOARD CRUD ---
+    function renderAdminNotices(pane) {
+      const notices = StorageEngine.get(STORAGE_KEYS.NOTICES, []);
+      pane.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h3 style="font-size:16px; font-weight:700;">Notice Board Announcements</h3>
+          <button class="btn-divine" style="width:auto; padding:0 16px; height:38px; font-size:13px;" onclick="openAdminCreateNoticeModal()">
+            <i class="fa-solid fa-plus"></i> Post Notice
+          </button>
+        </div>
+        ${notices.length === 0 ? '<div class="empty-state-box"><p>No notices posted yet.</p></div>' : `
+          <div class="admin-card">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Date</th>
+                  <th>Priority</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${notices.map(n => `
+                  <tr>
+                    <td><strong>${escapeHTML(n.title)}</strong></td>
+                    <td>${n.date}</td>
+                    <td>
+                      <span class="notice-badge ${n.pinned ? 'badge-pinned' : (n.urgent ? 'badge-urgent' : 'badge-regular')}">
+                        ${n.pinned ? 'PINNED' : (n.urgent ? 'URGENT' : 'NORMAL')}
+                      </span>
+                    </td>
+                    <td>
+                      <button class="btn-icon" onclick="togglePinNotice('${n.id}')" title="Pin/Unpin"><i class="fa-solid fa-thumbtack"></i></button>
+                      <button class="btn-icon" style="color:#C62828;" onclick="deleteNoticeItem('${n.id}')" title="Delete"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `}
+      `;
+    }
+
+    function openAdminCreateNoticeModal() {
+      ModalFormContext = { type: 'ADMIN_NOTICE' };
+      document.getElementById('modalHeaderTitle').textContent = 'Post Official Notice';
+      document.getElementById('modalFormFields').innerHTML = `
+        <label class="form-label">Notice Title</label>
+        <input type="text" id="noticeTitle" class="admin-input" required />
+
+        <label class="form-label">Message Content</label>
+        <textarea id="noticeMessage" class="admin-textarea" rows="4" required></textarea>
+
+        <div style="display:flex; gap:20px; margin-top:10px;">
+          <label style="font-size:13px; display:flex; align-items:center; gap:6px;">
+            <input type="checkbox" id="noticePinned" /> Pin to Top
+          </label>
+          <label style="font-size:13px; display:flex; align-items:center; gap:6px; color:#D32F2F;">
+            <input type="checkbox" id="noticeUrgent" /> Mark Urgent
+          </label>
+        </div>
+      `;
+      openGenericModal();
+    }
+
+    function togglePinNotice(id) {
+      const notices = StorageEngine.get(STORAGE_KEYS.NOTICES, []);
+      const notice = notices.find(n => n.id === id);
+      if (!notice) return;
+      notice.pinned = !notice.pinned;
+      StorageEngine.set(STORAGE_KEYS.NOTICES, notices);
+      renderAdminNotices(document.getElementById('adminTabContent'));
+      renderNotices();
+    }
+
+    function deleteNoticeItem(id) {
+      if (confirm('Delete this notice? It will disappear from all user dashboards.')) {
+        const notices = StorageEngine.get(STORAGE_KEYS.NOTICES, []);
+        const updated = notices.filter(n => n.id !== id);
+        StorageEngine.set(STORAGE_KEYS.NOTICES, updated);
+        addActivityLog('Notice Deleted', 'ADMIN', `Deleted notice ID: ${id}`);
+        renderAdminNotices(document.getElementById('adminTabContent'));
+        renderNotices();
+        showToast('Notice deleted');
+      }
+    }
+
+    // --- ADMIN HABIT MANAGER CRUD (MAX 10 ROWS) ---
+    function renderAdminHabits(pane) {
+      const habits = StorageEngine.get(STORAGE_KEYS.HABITS, []);
+      pane.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h3 style="font-size:16px; font-weight:700;">Habit Manager (Max 10 active rows)</h3>
+          ${habits.length < 10 ? `
+            <button class="btn-divine" style="width:auto; padding:0 16px; height:38px; font-size:13px;" onclick="openAdminCreateHabitModal()">
+              <i class="fa-solid fa-plus"></i> Add Habit
+            </button>
+          ` : '<span style="font-size:12px; color:#E65100;">Maximum 10 rows reached</span>'}
+        </div>
+        ${habits.length === 0 ? '<div class="empty-state-box"><p>No habits configured. Admin can add up to 10 habits.</p></div>' : `
+          <div class="admin-card">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Habit Title</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${habits.map(h => `
+                  <tr>
+                    <td><strong>${escapeHTML(h.title)}</strong></td>
+                    <td>
+                      <button class="btn-icon" onclick="openAdminCreateHabitModal('${h.id}')"><i class="fa-solid fa-pen"></i></button>
+                      <button class="btn-icon" style="color:#C62828;" onclick="deleteHabitItem('${h.id}')"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `}
+      `;
+    }
+
+    function openAdminCreateHabitModal(habitId = null) {
+      ModalFormContext = { type: 'ADMIN_HABIT', habitId };
+      const habits = StorageEngine.get(STORAGE_KEYS.HABITS, []);
+      const habit = habitId ? habits.find(h => h.id === habitId) : null;
+
+      document.getElementById('modalHeaderTitle').textContent = habit ? 'Edit Habit' : 'Add Habit Row';
+      document.getElementById('modalFormFields').innerHTML = `
+        <label class="form-label">Habit Discipline Title</label>
+        <input type="text" id="habitTitle" class="admin-input" required placeholder="e.g. 108 Swami Jap, 2hr Power Systems" value="${habit ? escapeHTML(habit.title) : ''}" />
+      `;
+      openGenericModal();
+    }
+
+    function deleteHabitItem(id) {
+      if (confirm('Delete this habit row?')) {
+        const habits = StorageEngine.get(STORAGE_KEYS.HABITS, []);
+        const updated = habits.filter(h => h.id !== id);
+        StorageEngine.set(STORAGE_KEYS.HABITS, updated);
+        addActivityLog('Habit Deleted', 'ADMIN', `Deleted habit row ID: ${id}`);
+        renderAdminHabits(document.getElementById('adminTabContent'));
+        showToast('Habit removed');
+      }
+    }
+
+    // --- ADMIN QUIZ & QUESTION BUILDER CRUD ---
+    function renderAdminExams(pane) {
+      const quizzes = StorageEngine.get(STORAGE_KEYS.QUIZZES, []);
+      pane.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h3 style="font-size:16px; font-weight:700;">Quiz & Question Bank Builder</h3>
+          <button class="btn-divine" style="width:auto; padding:0 16px; height:38px; font-size:13px;" onclick="openAdminCreateQuizModal()">
+            <i class="fa-solid fa-plus"></i> Create Quiz
+          </button>
+        </div>
+        ${quizzes.length === 0 ? '<div class="empty-state-box"><p>No quizzes configured yet. Click "Create Quiz" to add one.</p></div>' : `
+          <div class="admin-card">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Quiz Title</th>
+                  <th>Questions</th>
+                  <th>Time</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${quizzes.map(q => `
+                  <tr>
+                    <td><strong>${escapeHTML(q.title)}</strong></td>
+                    <td>${q.questions ? q.questions.length : 0} Questions</td>
+                    <td>${q.timeLimit || 10} Mins</td>
+                    <td>
+                      <button class="btn-divine" style="height:32px; padding:0 12px; font-size:12px; width:auto;" onclick="openAdminAddQuestionModal('${q.id}')">
+                        <i class="fa-solid fa-plus"></i> Add Question
+                      </button>
+                      <button class="btn-icon" style="color:#C62828;" onclick="deleteQuizItem('${q.id}')"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `}
+      `;
+    }
+
+    function openAdminCreateQuizModal() {
+      ModalFormContext = { type: 'ADMIN_QUIZ' };
+      document.getElementById('modalHeaderTitle').textContent = 'Create Electrical Quiz';
+      document.getElementById('modalFormFields').innerHTML = `
+        <label class="form-label">Quiz Title</label>
+        <input type="text" id="quizTitle" class="admin-input" required placeholder="e.g. Electrical Machines Mock 1" />
+
+        <label class="form-label">Category</label>
+        <input type="text" id="quizCategory" class="admin-input" value="Electrical Machines" />
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <div>
+            <label class="form-label">Time Limit (Minutes)</label>
+            <input type="number" id="quizTime" class="admin-input" value="10" />
+          </div>
+          <div>
+            <label class="form-label">Passing %</label>
+            <input type="number" id="quizPass" class="admin-input" value="50" />
+          </div>
+        </div>
+      `;
+      openGenericModal();
+    }
+
+    function openAdminAddQuestionModal(quizId) {
+      ModalFormContext = { type: 'ADMIN_QUESTION', quizId };
+      document.getElementById('modalHeaderTitle').textContent = 'Add Question with 4 Choices';
+      document.getElementById('modalFormFields').innerHTML = `
+        <label class="form-label">Question Text</label>
+        <textarea id="qText" class="admin-textarea" rows="3" required placeholder="Enter objective question..."></textarea>
+
+        <label class="form-label">Option A</label>
+        <input type="text" id="optA" class="admin-input" required />
+
+        <label class="form-label">Option B</label>
+        <input type="text" id="optB" class="admin-input" required />
+
+        <label class="form-label">Option C</label>
+        <input type="text" id="optC" class="admin-input" required />
+
+        <label class="form-label">Option D</label>
+        <input type="text" id="optD" class="admin-input" required />
+
+        <label class="form-label">Correct Option</label>
+        <select id="correctOpt" class="admin-select">
+          <option value="0">Option A</option>
+          <option value="1">Option B</option>
+          <option value="2">Option C</option>
+          <option value="3">Option D</option>
+        </select>
+      `;
+      openGenericModal();
+    }
+
+    function deleteQuizItem(id) {
+      if (confirm('Delete this quiz?')) {
+        const quizzes = StorageEngine.get(STORAGE_KEYS.QUIZZES, []);
+        const updated = quizzes.filter(q => q.id !== id);
+        StorageEngine.set(STORAGE_KEYS.QUIZZES, updated);
+        addActivityLog('Quiz Deleted', 'ADMIN', `Deleted quiz ID: ${id}`);
+        renderAdminExams(document.getElementById('adminTabContent'));
+        showToast('Quiz deleted');
+      }
+    }
+
+    // --- ADMIN TOOL BUILDER (EXTEND ELECTRICAL TOOL REGISTRY) ---
+    function renderAdminTools(pane) {
+      const customTools = StorageEngine.get(STORAGE_KEYS.TOOLS, []);
+      pane.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h3 style="font-size:16px; font-weight:700;">Dynamic Tool Builder</h3>
+          <button class="btn-divine" style="width:auto; padding:0 16px; height:38px; font-size:13px;" onclick="openAdminCreateToolModal()">
+            <i class="fa-solid fa-plus"></i> Build New Tool
+          </button>
+        </div>
+        <div class="admin-card">
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">
+            Tools created here are dynamically registered and appear in the Electrical Toolbox with a "NEW" badge.
+          </p>
+          ${customTools.length === 0 ? '<p style="font-size:13px; color:var(--text-light);">No custom tools built yet.</p>' : `
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Tool Name</th>
+                  <th>Formula</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${customTools.map(t => `
+                  <tr>
+                    <td><strong>${escapeHTML(t.name)}</strong></td>
+                    <td><code>${escapeHTML(t.formula)}</code></td>
+                    <td>
+                      <button class="btn-icon" style="color:#C62828;" onclick="deleteCustomTool('${t.id}')"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `}
+        </div>
+      `;
+    }
+
+    function openAdminCreateToolModal() {
+      ModalFormContext = { type: 'ADMIN_TOOL' };
+      document.getElementById('modalHeaderTitle').textContent = 'Build Dynamic Tool';
+      document.getElementById('modalFormFields').innerHTML = `
+        <label class="form-label">Tool Name</label>
+        <input type="text" id="toolName" class="admin-input" required placeholder="e.g. Transmission Line Sag Calculator" />
+
+        <label class="form-label">Description</label>
+        <textarea id="toolDesc" class="admin-textarea" rows="2" placeholder="Calculates sag based on span length and tension."></textarea>
+
+        <label class="form-label">Formula Display</label>
+        <input type="text" id="toolFormula" class="admin-input" required placeholder="S = (W × L²) / (8 × T)" />
+
+        <label class="form-label">FontAwesome Icon Class</label>
+        <input type="text" id="toolIcon" class="admin-input" value="fa-bolt" />
+      `;
+      openGenericModal();
+    }
+
+    function deleteCustomTool(id) {
+      if (confirm('Delete this dynamic tool?')) {
+        const tools = StorageEngine.get(STORAGE_KEYS.TOOLS, []);
+        const updated = tools.filter(t => t.id !== id);
+        StorageEngine.set(STORAGE_KEYS.TOOLS, updated);
+        addActivityLog('Tool Deleted', 'ADMIN', `Deleted custom tool: ${id}`);
+        renderAdminTools(document.getElementById('adminTabContent'));
+        renderAllTools();
+        showToast('Tool deleted');
+      }
+    }
+
+    // --- ADMIN EMERGENCY BROADCAST ---
+    function renderAdminBroadcast(pane) {
+      const emergency = StorageEngine.get(STORAGE_KEYS.EMERGENCY, { active: false, message: '' });
+      pane.innerHTML = `
+        <div class="admin-card">
+          <h3 style="font-size:16px; font-weight:700; margin-bottom:14px;"><i class="fa-solid fa-triangle-exclamation" style="color:#D32F2F;"></i> Emergency Broadcast Control</h3>
+          <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">
+            Broadcasts an immediate animated alert banner to all active users.
+          </p>
+
+          <label class="form-label">Broadcast Message</label>
+          <input type="text" id="broadcastMsgInput" class="admin-input" value="${escapeHTML(emergency.message || '')}" placeholder="URGENT: Portal server maintenance at 11 PM" />
+
+          <div style="display:flex; gap:12px; margin-top:10px;">
+            <button class="btn-divine" style="background:#D32F2F; width:auto; padding:0 20px; height:42px;" onclick="saveBroadcast(true)">
+              Activate Broadcast
+            </button>
+            <button class="btn-divine" style="background:#ECEFF1; color:var(--text-main); width:auto; padding:0 20px; height:42px;" onclick="saveBroadcast(false)">
+              Deactivate
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function saveBroadcast(active) {
+      const msg = document.getElementById('broadcastMsgInput').value.trim();
+      if (active && !msg) {
+        alert('Please enter a message for broadcast.');
+        return;
+      }
+      const data = { active, message: msg, timestamp: new Date().toLocaleTimeString() };
+      StorageEngine.set(STORAGE_KEYS.EMERGENCY, data);
+      checkEmergencyBroadcast();
+      addActivityLog('Broadcast Updated', 'BROADCAST', `Emergency broadcast ${active ? 'Activated' : 'Revoked'}`);
+      showToast(active ? 'Broadcast Activated!' : 'Broadcast Deactivated');
+    }
+
+    // --- ADMIN ACTIVITY AUDIT LOGS ---
+    function renderAdminLogs(pane) {
+      const logs = StorageEngine.get(STORAGE_KEYS.ACTIVITY_LOGS, []);
+      pane.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h3 style="font-size:16px; font-weight:700;">Activity Audit History (${logs.length})</h3>
+          <button class="btn-divine" style="background:#C62828; width:auto; padding:0 16px; height:36px; font-size:12.5px;" onclick="clearAllLogs()">
+            Clear Audit Logs
+          </button>
+        </div>
+        <div class="admin-card" style="max-height:500px; overflow-y:auto;">
+          ${logs.length === 0 ? '<p style="font-size:13px; color:var(--text-light);">No activity logs recorded yet.</p>' : `
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Action</th>
+                  <th>Type</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${logs.map(l => `
+                  <tr>
+                    <td style="font-size:11.5px; color:var(--text-light);">${l.date} ${l.time}</td>
+                    <td><strong>${escapeHTML(l.action)}</strong></td>
+                    <td><span class="notice-badge badge-regular">${l.type}</span></td>
+                    <td style="font-size:12.5px;">${escapeHTML(l.details)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `}
+        </div>
+      `;
+    }
+
+    function clearAllLogs() {
+      if (confirm('Clear all audit logs permanently?')) {
+        StorageEngine.set(STORAGE_KEYS.ACTIVITY_LOGS, []);
+        renderAdminLogs(document.getElementById('adminTabContent'));
+        showToast('Logs cleared');
+      }
+    }
+
+    // --- GENERIC MODAL FORM SUBMIT HANDLER ---
+    function handleGenericFormSubmit(e) {
+      e.preventDefault();
+      if (!ModalFormContext) return;
+
+      const now = new Date();
+
+      if (ModalFormContext.type === 'NOTE') {
+        const title = document.getElementById('noteTitle').value.trim();
+        const category = document.getElementById('noteCategory').value.trim();
+        const content = document.getElementById('noteContent').value.trim();
+        const notes = StorageEngine.get(STORAGE_KEYS.NOTES, []);
+
+        if (ModalFormContext.noteId) {
+          const note = notes.find(n => n.id === ModalFormContext.noteId);
+          if (note) {
+            note.title = title;
+            note.category = category;
+            note.content = content;
+            note.updatedDate = now.toLocaleDateString();
+          }
+          addActivityLog('Note Edited', 'NOTES', `Edited note: ${title}`);
+        } else {
+          notes.unshift({
+            id: 'NOTE_' + Date.now(),
+            title,
+            category,
+            content,
+            date: now.toLocaleDateString(),
+            time: now.toLocaleTimeString()
+          });
+          addActivityLog('Note Created', 'NOTES', `Created note: ${title}`);
+        }
+        StorageEngine.set(STORAGE_KEYS.NOTES, notes);
+        renderNotes();
+      } 
+      else if (ModalFormContext.type === 'ADMIN_TASK') {
+        const title = document.getElementById('taskTitle').value.trim();
+        const category = document.getElementById('taskCategory').value.trim();
+        const desc = document.getElementById('taskDesc').value.trim();
+        const coins = parseInt(document.getElementById('taskCoins').value) || 50;
+        const xp = parseInt(document.getElementById('taskXp').value) || 100;
+        const deadline = document.getElementById('taskDeadline').value.trim();
+
+        const tasks = StorageEngine.get(STORAGE_KEYS.TASKS, []);
+        if (ModalFormContext.taskId) {
+          const t = tasks.find(item => item.id === ModalFormContext.taskId);
+          if (t) {
+            t.title = title; t.category = category; t.description = desc;
+            t.coins = coins; t.xp = xp; t.deadline = deadline;
+          }
+        } else {
+          tasks.unshift({
+            id: 'TASK_' + Date.now(),
+            title, category, description: desc, coins, xp, deadline, enabled: true
+          });
+        }
+        StorageEngine.set(STORAGE_KEYS.TASKS, tasks);
+        addActivityLog('Task Saved', 'ADMIN', `Saved task: ${title}`);
+        renderAdminTasks(document.getElementById('adminTabContent'));
+        renderTasks();
+      }
+      else if (ModalFormContext.type === 'ADMIN_REWARD') {
+        const emoji = document.getElementById('rewardEmoji').value.trim() || '🎁';
+        const title = document.getElementById('rewardTitle').value.trim();
+        const cost = parseInt(document.getElementById('rewardCost').value) || 100;
+        const desc = document.getElementById('rewardDesc').value.trim();
+
+        const rewards = StorageEngine.get(STORAGE_KEYS.REWARDS, []);
+        if (ModalFormContext.rewardId) {
+          const r = rewards.find(item => item.id === ModalFormContext.rewardId);
+          if (r) { r.emoji = emoji; r.title = title; r.cost = cost; r.description = desc; }
+        } else {
+          rewards.unshift({ id: 'REW_' + Date.now(), emoji, title, cost, description: desc, enabled: true });
+        }
+        StorageEngine.set(STORAGE_KEYS.REWARDS, rewards);
+        addActivityLog('Reward Saved', 'ADMIN', `Saved reward: ${title}`);
+        renderAdminRewards(document.getElementById('adminTabContent'));
+        renderRewards();
+      }
+      else if (ModalFormContext.type === 'ADMIN_NOTICE') {
+        const title = document.getElementById('noticeTitle').value.trim();
+        const message = document.getElementById('noticeMessage').value.trim();
+        const pinned = document.getElementById('noticePinned').checked;
+        const urgent = document.getElementById('noticeUrgent').checked;
+
+        const notices = StorageEngine.get(STORAGE_KEYS.NOTICES, []);
+        notices.unshift({
+          id: 'NOT_' + Date.now(),
+          title, message, pinned, urgent,
+          date: now.toLocaleDateString(),
+          time: now.toLocaleTimeString(),
+          active: true
+        });
+        StorageEngine.set(STORAGE_KEYS.NOTICES, notices);
+        addActivityLog('Notice Created', 'ADMIN', `Created notice: ${title}`);
+        renderAdminNotices(document.getElementById('adminTabContent'));
+        renderNotices();
+      }
+      else if (ModalFormContext.type === 'ADMIN_HABIT') {
+        const title = document.getElementById('habitTitle').value.trim();
+        const habits = StorageEngine.get(STORAGE_KEYS.HABITS, []);
+        if (ModalFormContext.habitId) {
+          const h = habits.find(item => item.id === ModalFormContext.habitId);
+          if (h) h.title = title;
+        } else {
+          habits.push({ id: 'HAB_' + Date.now(), title, enabled: true });
+        }
+        StorageEngine.set(STORAGE_KEYS.HABITS, habits);
+        addActivityLog('Habit Saved', 'ADMIN', `Saved habit: ${title}`);
+        renderAdminHabits(document.getElementById('adminTabContent'));
+        renderHabitMatrix();
+      }
+      else if (ModalFormContext.type === 'ADMIN_QUIZ') {
+        const title = document.getElementById('quizTitle').value.trim();
+        const category = document.getElementById('quizCategory').value.trim();
+        const timeLimit = parseInt(document.getElementById('quizTime').value) || 10;
+        const passingScore = parseInt(document.getElementById('quizPass').value) || 50;
+
+        const quizzes = StorageEngine.get(STORAGE_KEYS.QUIZZES, []);
+        quizzes.unshift({
+          id: 'QUIZ_' + Date.now(),
+          title, category, timeLimit, passingScore, questions: []
+        });
+        StorageEngine.set(STORAGE_KEYS.QUIZZES, quizzes);
+        addActivityLog('Quiz Created', 'ADMIN', `Created quiz: ${title}`);
+        renderAdminExams(document.getElementById('adminTabContent'));
+        renderQuizzes();
+      }
+      else if (ModalFormContext.type === 'ADMIN_QUESTION') {
+        const quizzes = StorageEngine.get(STORAGE_KEYS.QUIZZES, []);
+        const quiz = quizzes.find(q => q.id === ModalFormContext.quizId);
+        if (quiz) {
+          quiz.questions.push({
+            id: 'Q_' + Date.now(),
+            question: document.getElementById('qText').value.trim(),
+            options: [
+              document.getElementById('optA').value.trim(),
+              document.getElementById('optB').value.trim(),
+              document.getElementById('optC').value.trim(),
+              document.getElementById('optD').value.trim()
+            ],
+            correctIndex: parseInt(document.getElementById('correctOpt').value)
+          });
+          StorageEngine.set(STORAGE_KEYS.QUIZZES, quizzes);
+          addActivityLog('Question Added', 'ADMIN', `Added question to ${quiz.title}`);
+        }
+        renderAdminExams(document.getElementById('adminTabContent'));
+        renderQuizzes();
+      }
+      else if (ModalFormContext.type === 'ADMIN_TOOL') {
+        const name = document.getElementById('toolName').value.trim();
+        const desc = document.getElementById('toolDesc').value.trim();
+        const formula = document.getElementById('toolFormula').value.trim();
+        const icon = document.getElementById('toolIcon').value.trim() || 'fa-bolt';
+
+        const tools = StorageEngine.get(STORAGE_KEYS.TOOLS, []);
+        tools.unshift({
+          id: 'CUSTOM_TOOL_' + Date.now(),
+          name, desc, formula, icon, isNew: true
+        });
+        StorageEngine.set(STORAGE_KEYS.TOOLS, tools);
+        addActivityLog('Tool Built', 'ADMIN', `Built dynamic tool: ${name}`);
+        renderAdminTools(document.getElementById('adminTabContent'));
+        renderAllTools();
+      }
+
+      closeGenericModal();
+      showToast('Saved successfully!');
+    }
+
+    function openGenericModal() {
+      document.getElementById('genericModal').classList.add('active');
+    }
+    function closeGenericModal() {
+      document.getElementById('genericModal').classList.remove('active');
+    }
+    function closeGenericModalOnBackdrop(e) {
+      if (e.target.id === 'genericModal') closeGenericModal();
+    }
+
+    // --- TOAST NOTIFICATIONS & CONFETTI ---
+    function showToast(msg) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'toast-msg';
+      toast.innerHTML = `<i class="fa-solid fa-bell" style="color:var(--saffron-primary)"></i> <span>${escapeHTML(msg)}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(50px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3200);
+    }
+
+    function triggerConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = [];
+      const colors = ['#FF7700', '#D4AF37', '#FFA000', '#FF5722', '#0288D1'];
+
+      for (let i = 0; i < 90; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          r: Math.random() * 6 + 3,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 14,
+          vy: (Math.random() - 0.7) * 16,
+          gravity: 0.35,
+          alpha: 1
+        });
+      }
+
+      function updateConfetti() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.alpha -= 0.015;
+
+          if (p.alpha > 0) {
+            alive = true;
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        });
+
+        if (alive) requestAnimationFrame(updateConfetti);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      updateConfetti();
+    }
+
+    function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
